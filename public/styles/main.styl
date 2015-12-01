@@ -1,0 +1,104 @@
+
+/////////////////////////
+///      COLORS       ///
+/////////////////////////
+
+primary = rgb(82, 160, 154)
+secondary = rgb(77, 98, 192)
+tertiary = rgb(155, 200, 167)
+
+
+//////////////////////////
+///      EFFECTS       ///
+//////////////////////////
+
+@keyframes fadein
+  0%
+    opacity: 0
+  20%
+    opacity: 0
+  100%
+    opacity: 1
+
+@keyframes grow
+  0%
+    transform: scale(0.9)
+  20%
+    transform: scale(0.9)
+  100%
+    transform: scale(1)
+
+
+/////////////////////////
+///      STYLES       ///
+/////////////////////////
+
+body
+  font-family: Helvetica
+  font-weight: 400
+
+h1, h2, h3, h4
+  font-family: "Alegreya Sans SC"
+  font-weight: 700
+  letter-spacing: 4px
+
+h1
+  font-size: 64px
+  
+h2
+  font-size: 28px
+  
+h3
+  font-size: 24px
+
+h4
+  font-size: 18px
+
+
+.landing
+  padding: 64px
+  
+  text-align: center
+  color: white
+
+  background-color: #4686a0
+  background-attachment: fixed, fixed, fixed
+  background-image:
+    url("/images/stripes.svg"),
+    linear-gradient(
+      45deg,
+      transparentify(tertiary, 0.7) 7%,
+      transparentify(primary, 0.7) 33%,
+      transparentify(secondary, 0.7)
+      ),
+    url("/images/texture-block.png")
+  background-size: cover, auto, auto
+
+  > *
+    display: inline-block
+    vertical-align: middle
+
+    animation-name: fadein
+    animation-duration: 5s
+    animation-timing-function: linear
+
+  .logo
+    width: 160px
+    filter: drop-shadow(8px 8px 12px rgba(0, 0, 0, 0.4))
+
+    animation-name: grow
+    animation-duration: 5s
+    animation-timing-function: ease-out
+    
+    path
+      fill: white
+    
+  .landing-text
+    padding-left: 80px
+    text-shadow: 8px 8px 12px rgba(0, 0, 0, 0.4)
+
+    .subtitle
+      font-family: Lato
+      font-weight: 300
+      font-size: 22px
+      margin-top: -48px

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000">
+	<polygon points="125,0 1125,1000 1375,1000 375,0" fill="rgba(0,0,0,0.025)"/>
+	<polygon points="375,0 1375,1000 1625,1000 625,0" fill="rgba(0,0,0,0.05)"/>
+	<polygon points="625,0 1625,1000 1875,1000 875,0" fill="rgba(0,0,0,0.075)"/>
+	<polygon points="875,0 1875,1000 2125,1000 1125,0" fill="rgba(0,0,0,0.1)"/>
+</svg>
