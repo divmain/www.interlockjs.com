@@ -6,5 +6,15 @@ html(lang='en')
     link(rel="stylesheet" href="/styles/main.css" type="text/css")
     title InterlockJS
 
+    script.
+      window['GoogleAnalyticsObject'] = "ga";
+      window.ga = function () {
+        (window.ga.q = window.ga.q || []).push(arguments);
+      };
+      window.ga.l = 1 * new Date();
+      ga('create', 'UA-70074767-2', 'auto');
+      ga('send', 'pageview');
+    script(src="//www.google-analytics.com/analytics.js" async)
+
   body
     != yield
