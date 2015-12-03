@@ -2,6 +2,69 @@ header.landing
   .logo-wrapper
     include _assets/interlock-logo.svg
 
-  .landing-text
+  .landing-header
     h1 Interlock.js
-    p.subtitle inspired by Git - built on Babel
+    p.subtitle A bundler and build pipeline for the modern web.
+    a.cta Get Started
+    a.cta(href="//github.com/interlockjs/interlock") Open on GitHub
+
+
+section.getting-started
+  .content
+    :markdown
+      ## Getting Started
+
+      getting started, bacon ipsum, etc etc etc
+
+      **Interlock is a bundler and build pipeline for the modern web.**
+
+      - modularity
+      - comprehensibility
+      - extensibility
+
+      It provides first-class support for ECMAScript 2015+ via Babel and CSS via PostCSS.  Its module system promotes modularity at any level of granularity, without sacrificing performance, accommodating teams of two or teams of two hundred.
+
+      It aims to be comprehensible and extensible through plugins.
+
+
+section.module-system
+  aside
+    img(src="/images/module-system.svg")
+  .content
+    :markdown
+      ## Powerful module system
+
+      Interlock features a powerful module system, inspired by Git's object database.  Each source module is assigned a canonical ID, generated as a hash of the module's content and certain meta-data, including the IDs of all its dependencies.  At run-time these modules can be referenced without concern for collisions between project versions.
+
+      In practice, the module system obviates entire categories of problems related to caching and **sharing code across teams and builds**.  It allows the developer to select the appropriate level of granularity at which components and projects are built and deployed.
+
+      And it does this without sacrificing performance or development ergonomics, whether you're a team of two or a team of two hundred.
+
+
+section.extensibility
+  .content
+    :markdown
+      ## Extensible
+
+      Interlock makes ease-of-extensibility a top priority.  Every step of the build process can be extended or overridden, extension points are consistent, and documentation for those extension points is guaranteed to be up-to-date by Interlock's CI.
+
+      With Interlock, there is no divide between plugins and loaders.  Only plugins are needed, and can be used to transform or override the output of any step of the build process.  Everything is asynchronous, so you can read from the file-system or query some remote service if you need to.
+
+      Interlock uses AST as the intermediate representation of your JavaScript code, leading to excellent compatibility with tools like ESLint and Babel.  In fact, Interlock is built on top of Babel, and has support baked right in.
+
+      Interlock is extensible in a number of other ways - through alternate build pipelines for non-JavaScript like CSS, or through the run-time module-loading behavior.
+
+      Continue learning with our [interactive documentation](/docs/extensibility).
+
+  //- show example JSON plugin
+  
+
+section.quality
+  .content
+    :markdown
+      ## High code quality
+
+      test coverage
+      modern ES6 code
+      prefer functional, except where impractical
+
