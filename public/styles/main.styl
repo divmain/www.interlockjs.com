@@ -153,32 +153,22 @@ body section
   display: flex
   padding: 64px
 
+  color: neutral
+
   > *
     display: inline-block
 
   .content
     width: 1024px
 
-.getting-started
-  background-color: neutral
-  color: neutral-dark
+  &:nth-child(even)
+    background-color: neutral
+    color: neutral-dark
 
 .module-system
   display: flex
   align-items: center
 
-  color: neutral
-  
   aside
     flex: 0 1 400px
     margin-right: 64px
-
-    // width: 400px
-  // text-shadow: 4px 4px 12px rgba(40, 40, 40, 0.6)
-
-.extensibility
-  background-color: neutral
-  color: neutral-dark
-
-.quality
-  color: neutral

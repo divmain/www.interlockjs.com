@@ -21,10 +21,32 @@ section.getting-started
       - modularity
       - comprehensibility
       - extensibility
+      - support for HTTP/2 server push
+      - tree shaking
+      - CSS as a first-class citizen (no more extract-text-plugin)
+      - powerful dev server
+      - CDN that is wired up to NPM (and cached)
+      - flexible bundling - use the bundling scheme that works best for you. by default uses similar bundling scheme as [StealJS](http://stealjs.com/docs/index.html)
 
-      It provides first-class support for ECMAScript 2015+ via Babel and CSS via PostCSS.  Its module system promotes modularity at any level of granularity, without sacrificing performance, accommodating teams of two or teams of two hundred.
+      It provides first-class support for ECMAScript via Babel and CSS via PostCSS.  Its module system promotes modularity at any level of granularity, without sacrificing performance, accommodating teams of two or teams of two hundred.
 
       It aims to be comprehensible and extensible through plugins.
+
+
+section.why-interlock
+  .content
+    :markdown
+      ## Why Interlock?
+
+
+section.migration-path
+  .content
+    :markdown
+      ## Strong migration path
+
+      Do you use RequireJS? [Utilize the Interlock-RequireJS interop layer to integrate an Interlock build iteratively.](#)
+      Do you use Webpack? [Keep using the same Webpack loaders with our loader compatibility layer.](#)
+      Do you use Browserify? [We provide a compatibility layer for Browserify transforms, too!](#)
 
 
 section.module-system
@@ -33,6 +55,7 @@ section.module-system
   .content
     :markdown
       ## Powerful module system
+      //- Scalable
 
       Interlock features a powerful module system, inspired by Git's object database.  Each source module is assigned a canonical ID, generated as a hash of the module's content and certain meta-data, including the IDs of all its dependencies.  At run-time these modules can be referenced without concern for collisions between project versions.
 
