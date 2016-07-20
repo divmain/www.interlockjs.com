@@ -25,6 +25,30 @@ fixed-background()
     url("/images/texture-block.png")
   background-size: cover, auto, auto
 
+
+////////////////////////
+///      MEDIA       ///
+////////////////////////
+
+media_queries = {
+  mobile: "only screen and (max-width: 800px)",
+  tablet: "only screen and (min-width: 801px) and (max-width: 1023px)",
+  desktop: "only screen and (min-width: 1024px)"
+}
+
+for_breakpoint(breakpoints)
+  conditions = ()
+  for breakpoint in breakpoints
+    push(conditions, media_queries[breakpoint])
+  conditions = join(", ", conditions)
+  @media conditions
+    {block}
+    
+// Example usage:
+//
+//   +for_breakpoint(mobile tablet)
+//     .hide-for-mobile
+//       display none
 //
 
 
@@ -109,6 +133,11 @@ footer
   text-align: center
   color: neutral
 
+  margin-top: 48px
+
+  +for_breakpoint(mobile)
+    padding: 64px 0
+
   > *
     vertical-align: middle
 
@@ -124,12 +153,27 @@ footer
     
   .landing-header
     display: inline-block
-    padding-left: 80px
     text-shadow: 8px 8px 12px rgba(0, 0, 0, 0.4)
+
+    +for_breakpoint(mobile)
+      width: 100%
+      display: flex
+      flex-direction: column
+
+    +for_breakpoint(desktop tablet)
+      padding-left: 80px
+
+    h1
+      +for_breakpoint(mobile)
+        font-size: 12vw
+        margin: 4vh 0
 
     .subtitle
       margin-top: -46px
       font-size: 24px
+      
+      +for_breakpoint(mobile)
+       margin-top: -40px
 
   .cta
     display: inline-block
@@ -148,17 +192,27 @@ footer
     &:hover
       background-color: transparentify(neutral, 0.2)
 
-body section
+body > section
   display: flex
   padding: 64px
 
   color: neutral
 
+  margin: 0 12vw
+
+  +for_breakpoint(mobile)
+    margin: 0
+    padding: 24px 24px 48px 24px
+
   > *
     display: inline-block
 
   .content
-    width: 1024px
+    width: 100%
+    padding: 0 30px
+
+    h2
+      text-align: center
 
   &:nth-child(even)
     background-color: neutral
