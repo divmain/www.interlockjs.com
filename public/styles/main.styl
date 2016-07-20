@@ -264,3 +264,26 @@ body > section
     svg
       width: 120px
       height: 120px
+
+.split
+  display: flex
+
+  .block
+    flex: 1 1 50%
+    display: flex
+    flex-direction: column
+    justify-content: center
+    text-shadow: 0 0 12px rgba(0, 0, 0, 0.4)
+
+    +for_breakpoint(mobile)
+      flex-basis: 100%
+
+  .console
+    flex: 1 1 50%
+    font-size: 12px
+    background-color: rgba(30, 30, 30, 0.4)
+    padding: 24px
+    border-radius: 6px
+
+    +for_breakpoint(mobile)
+      flex-basis: 100%
