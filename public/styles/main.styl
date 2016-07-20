@@ -11,37 +11,7 @@ neutral = #f0f0f0
 neutral-dark = #333
 
 
-////////////////////////////
-///      ANIMATION       ///
-////////////////////////////
-
-@keyframes fadein
-  0%
-    opacity: 0
-  20%
-    opacity: 0
-  100%
-    opacity: 1
-
-@keyframes grow
-  0%
-    transform: scale(0.9)
-  20%
-    transform: scale(0.9)
-  100%
-    transform: scale(1)
-
-
-/////////////////////////
-///      STYLES       ///
-/////////////////////////
-
-body
-  font-family: Lato
-  font-weight: 300
-  font-size: 22px
-
-
+fixed-background()
   background-color: primary
   background-attachment: fixed, fixed, fixed
   background-image:
@@ -54,6 +24,23 @@ body
       ),
     url("/images/texture-block.png")
   background-size: cover, auto, auto
+
+//
+
+
+/////////////////////////
+///      STYLES       ///
+/////////////////////////
+
+*
+  box-sizing: border-box
+
+body
+  font-family: Lato
+  font-weight: 300
+  font-size: 22px
+
+  fixed-background()
 
 
 h1, h2, h3, h4
@@ -105,10 +92,6 @@ footer
   > *
     vertical-align: middle
 
-    animation-name: fadein
-    animation-duration: 5s
-    animation-timing-function: linear
-
   .logo-wrapper
     display: inline-block
 
@@ -116,10 +99,6 @@ footer
     width: 160px
     filter: drop-shadow(8px 8px 12px rgba(0, 0, 0, 0.4))
 
-    animation-name: grow
-    animation-duration: 5s
-    animation-timing-function: ease-out
-    
     path
       fill: neutral
     
