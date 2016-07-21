@@ -17,8 +17,7 @@ var color = d3.scale.category20c();
 
 var svg = d3.select(".interactive-docs .visualization")
   .append("svg")
-    .attr("width", width)
-    .attr("height", height)
+    .attr("viewBox", "0 0 " + width + " " + height)
   .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height + ")");
 
