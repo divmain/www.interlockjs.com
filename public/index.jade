@@ -31,15 +31,35 @@ section
         .illustration
           include _assets/future-readiness.svg
         h3 Future ready
-        .blurb With rich support for HTTP/2, Interlock won't constrain you to old deployment paradigms for your SPAs.
+        .blurb
+          | With 
+          a(href="https://github.com/interlockjs/plugins/tree/master/packages/h2") rich support for HTTP/2
+          |, Interlock won't restrict you to old deployment paradigms for your SPA.
       .bullet-point
         .illustration
           include _assets/extensibility.svg
         h3 Easily extensible
         .blurb A simple and straightforward plugin system.
+      .bullet-point
+        .illustration
+          include _assets/interoperate.svg
+        h3 Interoperable
+        .blurb
+          | No need to give up on your current toolset! Interlock supports 
+          a(href="https://github.com/interlockjs/plugins/tree/master/packages/webpack-loaders") Webpack loaders 
+          | and 
+          a(href="https://github.com/interlockjs/plugins/tree/master/packages/browserify-transforms") Browserify transforms
+          |, and integrates with the Webpack and 
+          a(href="https://github.com/interlockjs/plugins/tree/master/packages/requirejs-interop") Require.js 
+          | runtimes.
+      .bullet-point
+        .illustration
+          include _assets/grows-with-you.svg
+        h3 Grows with you
+        .blurb Its module system allows you to share code across teams and builds, cutting down on huge, monolithic builds. A seamless experience, whether you're a team of two or a team of two hundred.
 
 
-section.friendly
+section.glass
   .content
     h2 Friendly
 
@@ -48,42 +68,66 @@ section.friendly
         :markdown
           Interlock fully embraces the [Zen of Python](https://www.python.org/doc/humor/#the-zen-of-python), both for internal implementation and for all developer-facing tools and interfaces.
 
-          All core [compilation options](/docs/options) can be configured through command-line flags.  When command-line flags are cumbersome, Interlock provides a rich JS API and configuration format.
+          All core [compilation options](/docs/options) can be set through command-line flags.  When command-line flags turn cumbersome, Interlock provides a rich JS API and configuration format.
 
-      pre.console.
-        $ ilk build --help
+      .block.fit
+        pre.console.
+          $ ilk build --help
 
-        Options:
-          --verbose, -v   Compiler verbosity (sent to STDOUT).          [count]
-          --config, -c    Path to Interlock config file.                [string]
-          --preset        Pull in pre-determined Interlock configuration
-                          options.                                      [string]
-          --help          Show help                                     [boolean]
-          --src           Path to source directory.                     [string]
-          --dest          Path to output directory.                     [string]
-          --entry, -e     Your application entry point, followed by its output
-                          bundle filename.                              [string]
-          --split, -s     Your application split point, followed by its output
-                          bundle filename.                              [string]
-          --ext           Extensions to use for require() resolution.   [string]
-          --namespace     Namespace to use for your project.            [string]
+          Options:
+            --verbose, -v   Compiler verbosity (sent to STDOUT).          [count]
+            --config, -c    Path to Interlock config file.                [string]
+            --preset        Pull in pre-determined Interlock configuration
+                            options.                                      [string]
+            --help          Show help                                     [boolean]
+            --src           Path to source directory.                     [string]
+            --dest          Path to output directory.                     [string]
+            --entry, -e     Your application entry point, followed by its output
+                            bundle filename.                              [string]
+            --split, -s     Your application split point, followed by its output
+                            bundle filename.                              [string]
+            --ext           Extensions to use for require() resolution.   [string]
+            --namespace     Namespace to use for your project.            [string]
 
-        [...]
+          [...]
 
 
-section.extensible
+section
   .content
+    h2 Powerful extensibility
     :markdown
-      ## Extensible
+      The core of Interlock is very small - many features that Interlock provides are implemented as plugins.  All compilation steps are [fully documented](/docs/extensibility) with an exploratory interface, and plugins tend to be short and sweet.
 
-      The core of Interlock is very small - most features that Interlock is provided through the suite of official plugins.  All compilation steps are fully documented with an exploratory interface, an
+    .split
+      .block
+        :markdown
+          Interlock makes no distinction between "loaders" and "plugins".  Ultimately, both effect the output of the build, and a separate   And with other tools, the line has often become rather blurry, in practice.
+        .container
+          a.cta Developer documentation
+          a.cta Example plugins
 
-      As a point of clarification, Interlock makes no distinction between "loaders" and "plugins"; ultimately, both effect the output of the build.  And with other tools, the line has often become rather blurry, in practice.
+      .block.fit
+        pre.console.
+          export default function (opts = {}) {
+            const isJsonFile = opts.filter || /\.json$/;
+            return (override, transform) => {
+              transform("readSource", module => {
+                if (isJsonFile.test(module.path)) {
+                  module = Object.assign({}, module, {
+                    rawSource: `module.exports = ${module.rawSource};`
+                  });
+                }
+                return module;
+              });
+            };
+          }
 
-      a.cta Developer documentation
-      a.cta Example plugins
+    .pull-right
 
-section.getting-started
+
+section.glass
+
+section
   .content
     :markdown
       ## Getting Started
@@ -107,61 +151,10 @@ section.getting-started
       It aims to be comprehensible and extensible through plugins.
 
 
-section.why-interlock
+section.why-interlock.glass
   .content
     :markdown
       ## Why Interlock?
 
 
-section.migration-path
-  .content
-    :markdown
-      ## Strong migration path
-
-      Do you use RequireJS? [Utilize the Interlock-RequireJS interop layer to integrate an Interlock build iteratively.](#)
-      Do you use Webpack? [Keep using the same Webpack loaders with our loader compatibility layer.](#)
-      Do you use Browserify? [We provide a compatibility layer for Browserify transforms, too!](#)
-
-
-section.module-system
-  aside
-    img(src="/images/module-system.svg")
-  .content
-    :markdown
-      ## Powerful module system
-      //- Scalable
-
-      Interlock features a powerful module system, inspired by Git's object database.  Each source module is assigned a canonical ID, generated as a hash of the module's content and certain meta-data, including the IDs of all its dependencies.  At run-time these modules can be referenced without concern for collisions between project versions.
-
-      In practice, the module system obviates entire categories of problems related to caching and **sharing code across teams and builds**.  It allows the developer to select the appropriate level of granularity at which components and projects are built and deployed.
-
-      And it does this without sacrificing performance or development ergonomics, whether you're a team of two or a team of two hundred.
-
-
-section.extensibility
-  .content
-    :markdown
-      ## Extensible
-
-      Interlock makes ease-of-extensibility a top priority.  Every step of the build process can be extended or overridden, extension points are consistent, and documentation for those extension points is guaranteed to be up-to-date by Interlock's CI.
-
-      With Interlock, there is no divide between plugins and loaders.  Only plugins are needed, and can be used to transform or override the output of any step of the build process.  Everything is asynchronous, so you can read from the file-system or query some remote service if you need to.
-
-      Interlock uses AST as the intermediate representation of your JavaScript code, leading to excellent compatibility with tools like ESLint and Babel.  In fact, Interlock is built on top of Babel, and has support baked right in.
-
-      Interlock is extensible in a number of other ways - through alternate build pipelines for non-JavaScript like CSS, or through the run-time module-loading behavior.
-
-      Continue learning with our [interactive documentation](/docs/extensibility).
-
-  //- show example JSON plugin
-  
-
-section.quality
-  .content
-    :markdown
-      ## High code quality
-
-      test coverage
-      modern ES6 code
-      prefer functional, except where impractical
 

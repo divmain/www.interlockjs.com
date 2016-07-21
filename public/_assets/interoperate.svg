@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="_x34_6_x5F_sdk_x5F_toolkit_x5F_for_x5F_developers"
+     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="64px"
+     viewBox="0 0 50 64" style="enable-background:new 0 0 50 64;" xml:space="preserve">
+<g>
+    <g>
+        <polygon style="fill:none;stroke:#f0f0f0;stroke-width:2;stroke-miterlimit:10;" points="17,8 25,3 33,8 33,16 25,21 17,16         "/>
+        <polyline style="fill:none;stroke:#f0f0f0;stroke-width:2;stroke-miterlimit:10;" points="33,8 25,13 17,8         "/>
+        <line style="fill:none;stroke:#f0f0f0;stroke-width:2;stroke-miterlimit:10;" x1="25" y1="13" x2="25" y2="21"/>
+    </g>
+    <line style="fill:none;stroke:#f0f0f0;stroke-width:2;stroke-miterlimit:10;" x1="35" y1="42" x2="35" y2="64"/>
+    <line style="fill:none;stroke:#f0f0f0;stroke-width:2;stroke-miterlimit:10;" x1="24" y1="33" x2="26" y2="33"/>
+    <line style="fill:none;stroke:#f0f0f0;stroke-width:2;stroke-miterlimit:10;" x1="20" y1="33" x2="22" y2="33"/>
+    <line style="fill:none;stroke:#f0f0f0;stroke-width:2;stroke-miterlimit:10;" x1="28" y1="33" x2="30" y2="33"/>
+    <path style="fill:none;stroke:#f0f0f0;stroke-width:2;stroke-miterlimit:10;" d="M27,64V52c0-1.104-0.896-2-2-2s-2,0.896-2,2v12"/>
+    <path style="fill:none;stroke:#f0f0f0;stroke-width:2;stroke-miterlimit:10;" d="M14,1h-3C4.381,5.273,1,11.537,1,20
+        c0,9.715,5.698,18.225,14,22v22"/>
+    <path style="fill:none;stroke:#f0f0f0;stroke-width:2;stroke-miterlimit:10;" d="M25,44c13.255,0,24-10.744,24-24
+        c0-8.465-3.379-14.727-10-19h-2v18l-12,8l-12-8V4"/>
+    <path style="fill:none;stroke:#f0f0f0;stroke-width:2;stroke-miterlimit:10;" d="M37.002,4C41.859,7.649,45,13.458,45,20
+        c0,11.047-8.954,20-20,20S5,31.047,5,20"/>
+</g>
+</svg>
