@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/interlockjs/interlockjs.com",
   "devDependencies": {
-    "harp": "^0.20.1",
+    "harp": "github:sintaxi/harp#v0.21.0-pre",
     "surge": "^0.17.2"
   }
 }
