@@ -1,0 +1,9 @@
+machine:
+  node:
+    version: v4.2.2
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - npm run deploy

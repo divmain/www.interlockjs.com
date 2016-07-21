@@ -6,7 +6,8 @@
   "scripts": {
     "build": "harp compile",
     "deploy": "npm run build && surge -p www/ -d interlockjs.com",
-    "dev": "open http://localhost:9000/ & harp server"
+    "dev": "open http://localhost:9000/ & harp server",
+    "test": "echo 'WARNING: No tests provided'"
   },
   "repository": {
     "type": "git",
