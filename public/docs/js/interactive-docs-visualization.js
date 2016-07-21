@@ -3,13 +3,14 @@ var JSON_PATH = "http://rawgit.com/interlockjs/interlock/master/docs/compilation
 var md = markdownit();
 
 var width = 700,
-  height = 700,
-  radius = Math.min(width, height) / 2;
+  height = width / 2,
+  radius = height;
 
 var x = d3.scale.linear()
-  .range([0, 2 * Math.PI]);
+  .range([0, Math.PI]);
 
-var y = d3.scale.sqrt()
+var y = d3.scale.pow()
+  .exponent(0.7)
   .range([0, radius]);
 
 var color = d3.scale.category20c();
@@ -19,7 +20,7 @@ var svg = d3.select(".interactive-docs .visualization")
     .attr("width", width)
     .attr("height", height)
   .append("g")
-    .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
+    .attr("transform", "translate(" + width / 2 + "," + height + ")");
 
 var tooltip = d3.select("body")
   .append("div")
@@ -31,11 +32,12 @@ var tooltip = d3.select("body")
 var doc = d3.select(".doc");
 
 var partition = d3.layout.partition()
+  .sort(function (a, b) { return b.position - a.position; })
   .value(function(d) { return d.size; });
 
 var arc = d3.svg.arc()
-  .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
-  .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+  .startAngle(function(d) { return (Math.PI / 2) - Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
+  .endAngle(function(d) { return (Math.PI / 2) - Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
   .innerRadius(function(d) { return Math.max(0, y(d.y)); })
   .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
@@ -49,9 +51,21 @@ function updateToolTip (d) {
 }
 
 d3.json(JSON_PATH, function(err, root) {
-  console.log("err", err);
-  console.log("root", root);
   if (err) throw err;
+
+  function orderChildren (node) {
+    if (node.children) {
+      node.children = node.children.map(function (child, idx) {
+        child = orderChildren(child);
+        child.position = idx;
+        return child;
+      });
+    }
+
+    return node;
+  }
+
+  orderChildren(root);
 
   var path = svg.selectAll("path")
     .data(partition.nodes(root))
@@ -62,8 +76,8 @@ d3.json(JSON_PATH, function(err, root) {
     .on("mouseover", updateToolTip)
     .on("mousemove", function (d) {
       return tooltip
-        .style("top", (d3.event.pageY-10)+"px")
-        .style("left", (d3.event.pageX+10)+"px");
+        .style("top", (d3.event.pageY - 10) + "px")
+        .style("left", (d3.event.pageX + 10) + "px");
     })
     .on("mouseout", function (){
       return tooltip.style("opacity", 0);
@@ -71,7 +85,7 @@ d3.json(JSON_PATH, function(err, root) {
 
   function click(d) {
     path.transition()
-      .duration(1500)
+      .duration(1200)
       .attrTween("d", arcTween(d));
     doc.html(function () {
       return md.render(d.markdown);
