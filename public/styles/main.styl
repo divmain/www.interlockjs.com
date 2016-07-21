@@ -116,9 +116,29 @@ a
   text-decoration: none
   cursor: auto
 
+.container
+  display: flex
+  justify-content: center
+  
+  +for_breakpoint(mobile)
+    margin-bottom: 24px
+
+.full-page
+  width: 100%
+  color: neutral
+  display: flex
+  flex-direction: column
+  align-items: center
+  
+  margin-top: 92px
+
+  > *
+    margin: 0
+
 footer
   display: flex
   justify-content: center
+  font-size: 0.7em
 
   padding: 64px  
   text-align: center
