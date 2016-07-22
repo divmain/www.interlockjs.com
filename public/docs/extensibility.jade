@@ -56,7 +56,7 @@ section.glass#writing-a-plugin
           // The function you return here will be invoked at the
           // beginning of each compilation.  It will be passed
           // `override` and `transform` functions that you can
-          // use to affect compilation behavior.
+          // use to effect compilation behavior.
           return (override, transform) => {
 
             // If you want to override a compilation step:
@@ -101,6 +101,11 @@ section
                 .then(() => this.pluggableC())
                 .then(() => this.pluggableD());
             });
+
+    .side-note
+      i.sigil.ion-alert
+      :markdown
+        **REMEMBER**  You'll often see arrow functions passed to `override` or `transform`.  This is a great short-hand.  However, keep in mind that arrow functions effect borrow their lexical scope's `this` context.  If you expect to have access to `this.someMethod` and it isn't there, check to see if you're using an arrow function.
 
     hr
 
