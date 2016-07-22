@@ -27,7 +27,7 @@ window.addEventListener('load', function() {
     .append("g")
       .attr("transform", "translate(" + width / 2 + "," + height + ")");
 
-  var statusBar = d3.select(".interactive-docs .status-bar");
+  var statusBar = d3.select(".interactive-docs .status");
 
   var doc = d3.select(".doc");
 
