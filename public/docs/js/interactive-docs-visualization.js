@@ -56,19 +56,21 @@ window.addEventListener('load', function() {
   d3.json(JSON_PATH, function(err, root) {
     if (err) throw err;
 
-    function orderChildren (node) {
+    function orderChildren (node, anscestors) {
       if (node.children) {
         node.children = node.children.map(function (child, idx) {
-          child = orderChildren(child);
+          var childAnscestors = anscestors.concat(node);
+          child = orderChildren(child, childAnscestors);
           child.position = idx;
           return child;
         });
       }
 
+      node.anscestors = anscestors;
       return node;
     }
 
-    orderChildren(root);
+    root = orderChildren(root, []);
 
     svg
       .append("circle")
@@ -91,18 +93,49 @@ window.addEventListener('load', function() {
       .on("mouseenter", updateStatusBar)
       .on("mouseleave", clearStatusBar);
 
+    function buildBreadcrumb (nodes, selector) {
+      window.requestAnimationFrame(function () {
+        var breadcrumb = document.createDocumentFragment();
+
+        nodes.forEach(function (node, idx) {
+          var isLast = idx === nodes.length - 1;
+
+          var domNode = document.createElement("a");
+          domNode.className = "breadcrumb-item";
+          domNode.addEventListener("click", function (ev) {
+            ev.preventDefault();
+            click(node);
+          });
+          domNode.innerHTML = node.name;
+          breadcrumb.appendChild(domNode);
+
+          var separator = document.createElement("i");
+          separator.className = "breadcrumb-separator ion-android-arrow-dropright";
+          breadcrumb.appendChild(separator);
+        });
+
+        var parent = document.querySelector(selector);
+        parent.innerHTML = "";
+        parent.appendChild(breadcrumb);
+      });
+    }
+
+    function updateDoc (d) {
+      doc.html(function () {
+        return md.render(d.markdown);
+      });
+      console.log(d.anscestors);
+      buildBreadcrumb(d.anscestors, ".doc-wrapper .breadcrumb");
+    }
+
     function click(d) {
       path.transition()
         .duration(1200)
         .attrTween("d", arcTween(d));
-      doc.html(function () {
-        return md.render(d.markdown);
-      });
+      updateDoc(d);
     }
 
-    doc.html(function () {
-      return md.render(root.markdown);
-    });
+    updateDoc(root);
   });
 
   function arcTween(d) {
