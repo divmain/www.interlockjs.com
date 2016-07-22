@@ -42,7 +42,7 @@ window.addEventListener('load', function() {
 
   function updateStatusBar (d) {
     statusBar.html(function () {
-      return "<b>" + d.name + "</b>";
+      return d.name;
     });
     statusBar
       .transition()
@@ -52,7 +52,8 @@ window.addEventListener('load', function() {
     window.requestAnimationFrame(function () {
       statusBar
         .transition()
-        .duration(1600)
+        .delay(1000)
+        .duration(600)
         .style("opacity", 0);
     });
   }
