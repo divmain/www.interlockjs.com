@@ -400,8 +400,17 @@ body > section
 
 .interactive
   padding: 0
-  margin: 0 calc(64px + 12vw)
-  
+  margin: 0 calc(12vw + (100vw - 1280px)/2.5)
+
+  +for_breakpoint(mobile)
+    margin: 0
+
+  +for_breakpoint(tablet)
+    margin: 0 12vw
+
+  +for_breakpoint(desktop)
+    margin: 0 calc(12vw + (100vw - 1024px)/2.5)
+
   &.glass
     margin-top: 64px
 
