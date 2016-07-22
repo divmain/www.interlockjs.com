@@ -14,7 +14,6 @@ window.addEventListener('load', function() {
     .exponent(0.7)
     .range([0, radius]);
 
-  // var color = d3.scale.category20c();
   var colorIdx = 0;
   function getColor () {
     return colors[colorIdx++];
@@ -76,7 +75,6 @@ window.addEventListener('load', function() {
       .data(partition.nodes(root))
       .enter().append("path")
       .attr("d", arc)
-      // .style("fill", function (d) { return color((d.children ? d : d.parent).name); })
       .style("fill", function (d) { return getColor(); })
       .classed("graph-arc", true)
       .attr("stroke-width", 2)
@@ -100,6 +98,10 @@ window.addEventListener('load', function() {
         return md.render(d.markdown);
       });
     }
+
+    doc.html(function () {
+      return md.render(root.markdown);
+    });
   });
 
   function arcTween(d) {
