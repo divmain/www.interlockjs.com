@@ -26,12 +26,7 @@ window.addEventListener('load', function() {
     .append("g")
       .attr("transform", "translate(" + width / 2 + "," + height + ")");
 
-  var tooltip = d3.select("body")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("position", "absolute")
-    .style("z-index", "10")
-    .style("opacity", 0);
+  var statusBar = d3.select(".interactive-docs .status-bar");
 
   var doc = d3.select(".doc");
 
@@ -45,13 +40,21 @@ window.addEventListener('load', function() {
     .innerRadius(function(d) { return Math.max(0, y(d.y)); })
     .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
-  function updateToolTip (d) {
-    tooltip.html(function () {
+  function updateStatusBar (d) {
+    statusBar.html(function () {
       return "<b>" + d.name + "</b>";
     });
-    return tooltip.transition()
-      .duration(50)
-      .style("opacity", 0.7);
+    statusBar
+      .transition()
+      .duration(0)
+      .style("opacity", 1);
+
+    window.requestAnimationFrame(function () {
+      statusBar
+        .transition()
+        .duration(1600)
+        .style("opacity", 0);
+    });
   }
 
   d3.json(JSON_PATH, function(err, root) {
@@ -80,15 +83,7 @@ window.addEventListener('load', function() {
       .attr("stroke-width", 2)
       .attr("stroke", "#f0f0f0")
       .on("click", click)
-      .on("mouseover", updateToolTip)
-      .on("mousemove", function (d) {
-        return tooltip
-          .style("top", (d3.event.pageY - 10) + "px")
-          .style("left", (d3.event.pageX + 10) + "px");
-      })
-      .on("mouseout", function (){
-        return tooltip.style("opacity", 0);
-      });
+      .on("mouseenter", updateStatusBar);
 
     function click(d) {
       path.transition()
