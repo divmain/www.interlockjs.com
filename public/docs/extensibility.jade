@@ -105,7 +105,7 @@ section
     .side-note
       i.sigil.ion-alert
       :markdown
-        **REMEMBER**  You'll often see arrow functions passed to `override` or `transform`.  This is a great short-hand.  However, keep in mind that arrow functions effect borrow their lexical scope's `this` context.  If you expect to have access to `this.someMethod` and it isn't there, check to see if you're using an arrow function.
+        **REMEMBER**  You'll often see arrow functions passed to `override` or `transform`.  This is a great short-hand.  However, keep in mind that arrow functions borrow their lexical scope's `this` context.  If you expect to have access to `this.someMethod()` and it isn't there, check to see if you're using an arrow function.
 
     hr
 
