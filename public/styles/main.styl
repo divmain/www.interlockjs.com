@@ -346,6 +346,9 @@ body > section
   .glass &
     background-color: rgba(30, 30, 30, 0.4)
 
+  &.standalone
+    background-color: neutral-dark
+
   +for_breakpoint(mobile)
     max-width: 100%
 
@@ -419,6 +422,27 @@ body > section
   &.glass
     margin-top: 64px
 
-path.graph-arc:hover
-  opacity: 0.5
-  
+  path.graph-arc:hover
+    opacity: 0.5
+
+#writing-a-plugin
+  padding: 64px 0
+  margin: 0 calc(12vw + (100vw - 1280px)/2.5)
+
+  .console
+    font-size: calc((192px + 1vw)/8.6)
+
+  +for_breakpoint(mobile)
+    margin: 0
+    .console
+      font-size: 2.5vw
+
+  +for_breakpoint(tablet)
+    margin: 0 12vw
+    .console
+      font-size: 1.9vw
+
+  +for_breakpoint(desktop)
+    margin: 0 calc(12vw + (100vw - 1024px)/2.5)
+    .console
+      font-size: calc((64px + 1.3vw)/4.2)

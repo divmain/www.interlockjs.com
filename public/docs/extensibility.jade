@@ -34,3 +34,52 @@ section.interactive
 script(src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js")
 script(src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/4.4.0/markdown-it.js")
 script(src="/docs/js/interactive-docs-visualization.js")
+
+//- section.glass
+
+section.glass#writing-a-plugin
+  .content
+    h2 Writing a Plugin
+
+    pre.console.standalone
+      code(class="language-javascript").
+        // Your plugin module should export a higher-order function.
+        // This function should accept as input an options object
+        // (this can be whatever you like), and return another
+        // function that closes over those options.
+        export default function (opts = {}) {
+
+          // By convention, your exported function will be invoked
+          // once, when your Interlock config file is evaluated.
+          // Computations for which you already have all required
+          // information should happen here.
+          const someComputedOption = someComputation(opts);
+
+          // The function you return here will be invoked at the
+          // beginning of each compilation.  It will be passed
+          // `override` and `transform` functions that you can
+          // use to effect compilation behavior.
+          return (override, transform) => {
+
+            // If you want to override a compilation step:
+            override("PLUGGABLE_NAME", input => {
+              // If you want to skip your override, you can always...
+              return override.CONTINUE;
+
+              // Otherwise, do your computations here and...
+              return someOutput;
+
+              // If your behavior is asynchronous you can always...
+              return Promise.resolve(someOutput);
+            })
+
+            // If instead you want to transform the default output:
+            transform("PLUGGABLE_NAME", pluggableOutput => {
+              // and ...
+              return modifiedPluggableOutput;
+
+              // Like `override`, you can always...
+              return Promise.resolve(modifiedPluggableOutput);
+            });
+          };
+        }
