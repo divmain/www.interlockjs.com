@@ -70,6 +70,14 @@ window.addEventListener('load', function() {
 
     orderChildren(root);
 
+    svg
+      .append("circle")
+      .attr("r", "349")
+      .style("fill", "none")
+      .style("stroke-width", "1")
+      .style("stroke", "#121212")
+      .style("stroke-dasharray", "2,6")
+
     var path = svg.selectAll("path")
       .data(partition.nodes(root))
       .enter().append("path")
@@ -78,6 +86,7 @@ window.addEventListener('load', function() {
       .classed("graph-arc", true)
       .attr("stroke-width", 2)
       .attr("stroke", "#f0f0f0")
+      .attr("stroke", "#121212")
       .on("click", click)
       .on("mouseenter", updateStatusBar)
       .on("mouseleave", clearStatusBar);

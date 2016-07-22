@@ -334,7 +334,7 @@ body > section
   border-radius: 6px
   text-shadow: none
   color: neutral
-  
+
   .glass &
     background-color: rgba(30, 30, 30, 0.4)
 
@@ -345,15 +345,55 @@ body > section
   position: relative
   width: 100%
 
+  svg
+    // `filter` would be valid here, but it performs poorly in Firefox
+    -webkit-filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.4))
+
   .status-bar-wrapper
     padding: 6px
-    background-color: rgba(20, 20, 20, 0.8)
+    background-color: neutral-dark
 
   .status-bar
     color: white
     text-align: right
     font-weight: 300
     font-size: 0.7em
+
+  .visualization
+    margin-bottom: -6px
+
+  .doc-wrapper
+    padding: 32px 48px
+    
+    h2
+      margin: 0 0 8px 0
+    
+    th, td
+      padding: 4px 12px
+    table
+      border-collapse: collapse;
+
+    table td, table th
+      border: 1px solid black;
+
+    table tr:first-child th
+      border-top: 0;
+
+    table tr:last-child td
+      border-bottom: 0;
+
+    table tr td:first-child,
+    table tr th:first-child
+      border-left: 0;
+
+    table tr td:last-child,
+    table tr th:last-child
+      border-right: 0;
+
+
+.interactive
+  padding: 0
+  margin: 0 calc(64px + 12vw)
 
 path.graph-arc:hover
   opacity: 0.5
