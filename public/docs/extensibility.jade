@@ -6,6 +6,14 @@ section
     :markdown
       Whether you want to build a plugin or hack on Interlock directly, this is the place to start.  A few things first.
 
+      **Interlock is built on pluggable functions.**  These pluggables are written like pure functions, taking inputs, delegating certain computations to other functions (often pluggables), and returning an output.  Through its plugin system, Interlock allows you to override or transform the behavior and output of any of the pluggables that are defined.
+
+      **The tool below is a visual representation of the entire compilation process.**  Each visual arc corresponds with a step of compilation, a pluggable.  Arcs closer to the center point are higher-level calculations, and are composed of the adjacent arcs the next level out.  Arcs on the outside have no pluggable dependencies.
+
+      As you hover over arcs, the name of the pluggable will be displayed below.  **If you click on an arc, the visualization will zoom in** and give you detailed information about that compilation step.  To navigate back up the call stack, click the semi-circle at the center of the graph.
+
+      **If you already know what you'd like to override, scroll down to [Writing a Plugin](#writing-a-plugin).**
+
 section.glass.interactive
   .interactive-docs
     .visualization
