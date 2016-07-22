@@ -35,8 +35,6 @@ script(src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js")
 script(src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/4.4.0/markdown-it.js")
 script(src="/docs/js/interactive-docs-visualization.js")
 
-//- section.glass
-
 section.glass#writing-a-plugin
   .content
     h2 Writing a Plugin
@@ -83,3 +81,41 @@ section.glass#writing-a-plugin
             });
           };
         }
+
+section
+  .content
+    h2 Plugin Context
+
+    .split
+      .block
+        :markdown
+          If you're overriding step A, and A normally calls B, C, and D, you may want to do the same when you override.
+
+          This can be accomplished simply by invoking those function names on `this`.
+
+      .block.fit
+        pre.console
+          code(class="language-javascript").
+            override("pluggableA", function (inputA) {
+              return this.pluggableB()
+                .then(() => this.pluggableC())
+                .then(() => this.pluggableD());
+            });
+
+    hr
+
+    .split
+      .block
+        :markdown
+          You may also want to access the Interlock compilation options.  These options are also accessible on the function context.
+
+      .block.fit
+        pre.console
+          code(class="language-javascript").
+            override("PLUGGABLE_NAME", function (inputA) {
+              if (this.opts.someOption) {
+                return "someValue";
+              } else {
+                return "someOtherValue";
+              }
+            });
