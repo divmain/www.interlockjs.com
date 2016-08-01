@@ -6,40 +6,15 @@ section
     :markdown
       Whether you want to build a plugin or hack on Interlock directly, this is the place to start.  A few things first.
 
-      - [Pluggables](#pluggables)
       - [Writing a Plugin](#writing-a-plugin)
+      - [Pluggables](#pluggables)
+      - [Plugin Context](#plugin-context)
+      - [Changing Run-time Behavior](#changing-runtime-behavior)
+      - [Data Structures](#data-structures)
+      - [Best Practices](#best-practices)
+      - [Learn More](#learn-more)
 
       **If you already know what you'd like to override, scroll down to [Writing a Plugin](#writing-a-plugin).**
-
-section.glass.interactive#pluggables
-  .interactive-docs
-    .visualization
-      svg(viewbox="0 0 700 350")
-
-section.interactive
-  .interactive-docs
-    .status-bar-wrapper
-      div
-        span.ion-arrow-left-c &nbsp;
-        span Start of Computation
-      .status &nbsp;
-      div
-        span End of computation&nbsp;
-        span.ion-arrow-right-c
-    .doc-wrapper
-      .breadcrumb
-      .doc
-        :markdown
-          **Interlock is built on pluggable functions.**  These pluggables are written like pure functions, taking inputs, delegating certain computations to other functions (often pluggables), and returning an output.  Through its plugin system, Interlock allows you to override or transform the behavior and output of any of the pluggables that are defined.
-
-          **This tool is a visual representation of the entire compilation process.**  Each arc above corresponds with a step of compilation; a pluggable.  Arcs closer to the center point are higher-level calculations, and are composed of the adjacent arcs the next level out.  Arcs on the outside have no pluggable dependencies.
-
-          As you hover over arcs, the name of the pluggable will be displayed.  **If you click on an arc, the visualization will zoom in** and give you detailed information about that compilation step.  To navigate back up the call stack, click the semi-circle at the center of the graph.
-
-
-script(src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js")
-script(src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/4.4.0/markdown-it.js")
-script(src="/docs/js/interactive-docs-visualization.js")
 
 section.glass#writing-a-plugin
   .content
@@ -88,7 +63,39 @@ section.glass#writing-a-plugin
           };
         }
 
-section
+section.glass.interactive#pluggables
+  .interactive-docs
+    .visualization
+      svg(viewbox="0 0 700 350")
+
+section.interactive
+  .interactive-docs
+    .status-bar-wrapper
+      div
+        span.ion-arrow-left-c &nbsp;
+        span Start of Computation
+      .status &nbsp;
+      div
+        span End of computation&nbsp;
+        span.ion-arrow-right-c
+    .doc-wrapper
+      .breadcrumb
+      .doc
+        :markdown
+          **Interlock is built on pluggable functions.**  These pluggables are written like pure functions, taking inputs, delegating certain computations to other functions (often pluggables), and returning an output.  Through its plugin system, Interlock allows you to override or transform the behavior and output of any of the pluggables that are defined.
+
+          **This tool is a visual representation of the entire compilation process.**  Each arc above corresponds with a step of compilation; a pluggable.  Arcs closer to the center point are higher-level calculations, and are composed of the adjacent arcs the next level out.  Arcs on the outside have no pluggable dependencies.
+
+          As you hover over arcs, the name of the pluggable will be displayed.  **If you click on an arc, the visualization will zoom in** and give you detailed information about that compilation step.  To navigate back up the call stack, click the semi-circle at the center of the graph.
+
+
+script(src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js")
+script(src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/4.4.0/markdown-it.js")
+script(src="/docs/js/interactive-docs-visualization.js")
+
+section.glass
+
+section#plugin-context
   .content
     h2 Plugin Context
 
@@ -133,17 +140,21 @@ section
 
 section.glass
 
-section
+section#changing-runtime-behavior
   .content
-    h2 Common Data Structures
+    h2 Run-time behavior
+    :markdown
+      TODO
+
+section.glass#data-structures
+  .content
+    h2 Data Structures
     :markdown
       TODO
       - modules
       - bundles
 
-section.glass
-
-section
+section#best-practices
   .content
     h2 Best Practices
     :markdown
@@ -153,7 +164,7 @@ section
 
 section.glass
 
-section
+section#learn-more
   .content
     h2 Learn More
     :markdown
