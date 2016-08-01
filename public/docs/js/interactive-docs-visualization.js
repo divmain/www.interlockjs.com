@@ -132,8 +132,6 @@ window.addEventListener('load', function() {
         .attrTween("d", arcTween(d));
       updateDoc(d);
     }
-
-    updateDoc(root);
   });
 
   function arcTween(d) {
