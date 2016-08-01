@@ -14,49 +14,59 @@ section
     h2 A build tool for universal javascript and beyond.
 
     .bullet-points
-      .bullet-point
+      a(href="https://github.com/interlockjs/plugins/tree/master/packages/css").bullet-point
         .illustration
           include _assets/first-class.svg
-        h3
-          | First-class
-          br
-          | CSS and HTML
-        .blurb lorem ipsum
-      .bullet-point
+        .description
+          h3 First-class CSS and HTML
+          .blurb lorem ipsum
+        i.ion-chevron-right.more-info
+        
+      a(href="/docs/cookbook/universal").bullet-point
         .illustration
           include _assets/universal.svg
-        h3 Universal
-        .blurb Clean Node.js builds, feature parity with browser builds.
-      .bullet-point
+        .description
+          h3 Universal
+          .blurb Clean Node.js builds, feature parity with browser builds.
+        i.ion-chevron-right.more-info
+
+      a(href="https://github.com/interlockjs/plugins/tree/master/packages/h2").bullet-point
         .illustration
           include _assets/future-readiness.svg
-        h3 Future ready
-        .blurb
-          | With 
-          a(href="https://github.com/interlockjs/plugins/tree/master/packages/h2") rich support for HTTP/2
-          |, Interlock won't restrict you to old deployment paradigms for your SPA.
-      .bullet-point
+        .description
+          h3 Future ready
+          .blurb With rich support for HTTP/2, Interlock won't restrict you to old deployment paradigms for your SPA.
+        i.ion-chevron-right.more-info
+
+      a(href="#extensibility").bullet-point
         .illustration
           include _assets/extensibility.svg
-        h3 Easily extensible
-        .blurb A simple and straightforward plugin system.
+        .description
+          h3 Easily extensible
+          .blurb A simple and straightforward plugin system.
+        i.ion-chevron-right.more-info
+
       .bullet-point
         .illustration
           include _assets/interoperate.svg
-        h3 Interoperable
-        .blurb
-          | No need to give up on your current toolset! Interlock supports 
-          a(href="https://github.com/interlockjs/plugins/tree/master/packages/webpack-loaders") Webpack loaders 
-          | and 
-          a(href="https://github.com/interlockjs/plugins/tree/master/packages/browserify-transforms") Browserify transforms
-          |, and integrates with the Webpack and 
-          a(href="https://github.com/interlockjs/plugins/tree/master/packages/requirejs-interop") Require.js 
-          | runtimes.
-      .bullet-point
+        .description
+          h3 Interoperable
+          .blurb
+            | No need to give up on your current toolset! Interlock supports 
+            a(href="https://github.com/interlockjs/plugins/tree/master/packages/webpack-loaders") Webpack loaders 
+            | and 
+            a(href="https://github.com/interlockjs/plugins/tree/master/packages/browserify-transforms") Browserify transforms
+            |, and integrates with the Webpack and 
+            a(href="https://github.com/interlockjs/plugins/tree/master/packages/requirejs-interop") Require.js 
+            | runtimes.
+
+      a(href="https://github.com/interlockjs/plugins/tree/master/packages/share").bullet-point
         .illustration
           include _assets/grows-with-you.svg
-        h3 Grows with you
-        .blurb Its module system allows you to share code across teams and builds, cutting down on huge, monolithic builds. A seamless experience, whether you're a team of two or a team of two hundred.
+        .description
+          h3 Grows with you
+          .blurb Its module system allows you to share code across teams and builds, cutting down on huge, monolithic builds. A seamless experience, whether you're a team of two or a team of two hundred.
+        i.ion-chevron-right.more-info
 
 
 section.glass
@@ -89,7 +99,7 @@ section.glass
         [...]
 
 
-section
+section#extensibility
   .content
     h2 Powerful extensibility
     :markdown
@@ -115,7 +125,7 @@ section
 
     .container
       a.cta(href="/docs/extensibility") Developer documentation
-      a.cta(href="/docs/cookbook") Example plugins
+      a.cta(href="/docs/cookbook/plugins") Example plugins
 
 section.glass
 
