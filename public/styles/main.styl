@@ -240,26 +240,27 @@ footer
   &:hover
     background-color: transparentify(neutral, 0.2)
 
+body
+  display: flex
+  flex-direction: column
+
 body > section
   display: flex
-  padding: 64px
+  flex-direction: column
+  padding: 24px 24px 48px 24px
+  margin: 0
 
-  margin: 0 12vw
-
-  +for_breakpoint(mobile)
-    margin: 0
-    padding: 24px 24px 48px 24px
+  +for_breakpoint(desktop wide)
+    padding: 64px
+    margin: auto
+    margin-bottom: 0
+    margin-top: 0
 
   > *
     display: inline-block
 
-  .content
-    width: 100%
-    font-size: 20px
-    line-height: 28px
-
-    h2
-      text-align: center
+  h2
+    text-align: center
 
   background-color: neutral
   color: neutral-dark
@@ -270,6 +271,45 @@ body > section
     
   &.heading
     padding-bottom: 0
+
+.content
+  +for_breakpoint(desktop wide)
+    width: 800px
+
+  font-size: 20px
+  line-height: 28px
+
+.split
+  display: flex
+
+  +for_breakpoint(desktop wide)
+    width: 800px
+  
+  +for_breakpoint(mobile tablet desktop)
+    flex-direction: column
+
+  .block
+    flex: 0 1 50%
+    display: flex
+    margin-right: 24px
+    flex-direction: column
+    justify-content: center
+
+    p
+      margin-top: 0
+
+    &.fit
+      margin-right: 0
+      flex: 1 0 auto
+
+      +for_breakpoint(mobile tablet desktop)
+          display: flex
+          justify-content: center
+          align-items: center
+
+    +for_breakpoint(mobile)
+      flex-basis: 100%
+
 
 .module-system
   display: flex
@@ -324,34 +364,6 @@ body > section
 .glass
   text-shadow: 0 0 12px rgba(0, 0, 0, 0.4)
 
-.split
-  display: flex
-  
-  +for_breakpoint(mobile tablet desktop)
-    flex-direction: column
-
-  .block
-    flex: 0 1 50%
-    display: flex
-    margin-right: 24px
-    flex-direction: column
-    justify-content: center
-
-    p
-      margin-top: 0
-
-    &.fit
-      margin-right: 0
-      flex: 1 0 auto
-
-      +for_breakpoint(mobile tablet desktop)
-          display: flex
-          justify-content: center
-          align-items: center
-
-    +for_breakpoint(mobile)
-      flex-basis: 100%
-
 .console
   font-size: 12px
   background-color: rgba(30, 30, 30, 0.9)
@@ -372,6 +384,8 @@ body > section
 .interactive-docs
   position: relative
   width: 100%
+  +for_breakpoint(desktop wide)
+    width: 800px
 
   svg
     // `filter` would be valid here, but it performs poorly in Firefox
@@ -422,10 +436,8 @@ body > section
     table tr th:last-child
       border-right: 0
 
-
 .interactive
   padding: 0
-  margin: 0 calc(12vw + (100vw - 1280px)/2.5)
 
   +for_breakpoint(mobile)
     margin: 0
@@ -452,10 +464,9 @@ body > section
 
 #writing-a-plugin
   padding: 64px 0
-  margin: 0 calc(12vw + (100vw - 1280px)/2.5)
 
   .console
-    font-size: calc((192px + 1vw)/8.6)
+    font-size: 20px
 
   +for_breakpoint(mobile)
     margin: 0
