@@ -4,17 +4,80 @@ section.glass.heading
 section
   .content
     :markdown
-      Whether you want to build a plugin or hack on Interlock directly, this is the place to start.  A few things first.
-
+      - [Internal Architecture](#internal-architecture)
+        - [Pluggable Functions](#pluggable-functions)
+        - [Intermediate Formats](#intermediate-formats)
+        - [Babel](#babel)
+        - [Tips](#tips)
+      - [Definition of Terms](#definition-of-terms)
       - [Writing a Plugin](#writing-a-plugin)
       - [Pluggables](#pluggables)
       - [Plugin Context](#plugin-context)
       - [Changing Run-time Behavior](#changing-runtime-behavior)
       - [Data Structures](#data-structures)
-      - [Best Practices](#best-practices)
       - [Learn More](#learn-more)
 
-      **If you already know what you'd like to override, scroll down to [Writing a Plugin](#writing-a-plugin).**
+section.glass
+
+section#internal-architecture
+  .content
+    h2 Internal Architecture
+    :markdown
+      Interlock is written in the purely-functional style, with one caveat.  Namely, Interlock is built on **pluggable functions.**
+
+
+      ### Pluggable Functions
+
+      Pluggable functions are like pure functions, taking inputs, delegating certain computations to other functions (often pluggables), and returning an input.
+
+      However, pluggable functions also have a special context (`this`) that is passed into the top-level pluggable function that is invoked.  Normally, this would be the `compile` pluggable.  This context is passed down into each pluggable's children.
+
+      Secondly, each pluggable function is wrapped in a `pluggable` call, and its dependencies are explicitly defined.
+
+      These pluggables are written like pure functions, taking inputs, delegating certain computations to other functions (often pluggables), and returning an output.  Through its plugin system, Interlock allows you to override or transform the behavior and output of any of the pluggables that are defined.
+
+      To learn more about pluggables, take a look at the [README](https://github.com/interlockjs/pluggable#pluggable).
+
+
+      ### Intermediate Formats
+
+      Interlock tries to pair a piece of data with its ideal structure.
+
+      In the case of JavaScript, this means that AST is used to represent code from the point of parsing until bundle-code and sourcemaps are generated.  The CSS plugin treats CSS similarly, using PostCSS's AST format.
+
+      In general, strings should be avoided unless they are the obvious choice.  For example, a bundle's code must ultimately be a string or a buffer in order to be written to a file.  Because Babel's generator outputs a string, we will transform AST to string at the very end of compilation.
+
+
+      ### Babel
+
+      Interlock relies on Babel for code parsing, transformation, and generation.  Some efforts are underway to optimize and provide potentially better-performing alternatives.  However, Babel is the most significant dependency that Interlock takes.
+
+      Babel itself is split into several packages, which are mostly maintained [here](https://github.com/babel/babel/tree/master/packages).  Each Babel package has its own README and test suite.  If you need to understand more about how Interlock consumes Babel packages, the READMEs and tests are a good place to start.  There are also several active channels in [Babel's Slack community](https://slack.babeljs.io/);
+
+
+      ### Tips
+
+      Although it is not enforced, it is recommended to treat all input/output data-structures as immutable.  For example, a method that returns a module with a new prop will usually be written as `assign({}, module, { newProp })`.
+
+
+section.glass
+
+section#definition-of-terms
+  .content
+    h2 Definition of Terms
+    table
+      thead
+        td Term
+        td Definition
+        td Links
+
+      tbody
+        tr
+          td AST
+          td Abstract syntax tree.  This is a hierarchical tree data-structure.  Each node in the AST has a type, and each node type corresponds with a particular node shape.  Meta-data about the node is also stored, including code location and comments.
+          td
+            a(href="https://astexplorer.net/") AST Explorer
+
 
 section.glass#writing-a-plugin
   .content
@@ -63,10 +126,12 @@ section.glass#writing-a-plugin
           };
         }
 
+
 section.glass.interactive#pluggables
   .interactive-docs
     .visualization
       svg(viewbox="0 0 700 350")
+
 
 section.interactive
   .interactive-docs
@@ -82,8 +147,6 @@ section.interactive
       .breadcrumb
       .doc
         :markdown
-          **Interlock is built on pluggable functions.**  These pluggables are written like pure functions, taking inputs, delegating certain computations to other functions (often pluggables), and returning an output.  Through its plugin system, Interlock allows you to override or transform the behavior and output of any of the pluggables that are defined.
-
           **This tool is a visual representation of the entire compilation process.**  Each arc above corresponds with a step of compilation; a pluggable.  Arcs closer to the center point are higher-level calculations, and are composed of the adjacent arcs the next level out.  Arcs on the outside have no pluggable dependencies.
 
           As you hover over arcs, the name of the pluggable will be displayed.  **If you click on an arc, the visualization will zoom in** and give you detailed information about that compilation step.  To navigate back up the call stack, click the semi-circle at the center of the graph.
@@ -93,7 +156,9 @@ script(src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js")
 script(src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/4.4.0/markdown-it.js")
 script(src="/docs/js/interactive-docs-visualization.js")
 
+
 section.glass
+
 
 section#plugin-context
   .content
@@ -136,13 +201,16 @@ section#plugin-context
               }
             });
 
+
 section.glass
+
 
 section#changing-runtime-behavior
   .content
     h2 Run-time behavior
     :markdown
       TODO
+
 
 section.glass#data-structures
   .content
@@ -152,15 +220,9 @@ section.glass#data-structures
       - modules
       - bundles
 
-section#best-practices
-  .content
-    h2 Best Practices
-    :markdown
-      TODO
-      - always return a new object- because everything is asynchronous, you cannot trust that an object you modify in one moment will not be mutated in the next `Object.assign({}, object, { newProp: "newValue "});`
-      - stick to AST
 
 section.glass
+
 
 section#learn-more
   .content
