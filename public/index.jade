@@ -105,7 +105,7 @@ section#extensibility
     :markdown
       The core of Interlock is very small - many features that Interlock provides are implemented as plugins.  All compilation steps are [fully documented](/docs/extensibility) with an exploratory interface, and plugins tend to be short and sweet.
 
-      Interlock makes no distinction between "loaders" and "plugins".  Ultimately, both effect the output of the build, and a separate   And with other tools, the line has often become rather blurry, in practice.
+      Interlock makes no distinction between "loaders" and "plugins".  Ultimately, both effect the output of the build, and a single API makes for easier-to-understand interactions between your plugins and the compilation.
 
     pre.console
       code(class="language-javascript").
