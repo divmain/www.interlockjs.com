@@ -120,6 +120,12 @@ pre, code
   font-feature-settings: "liga" 0
   line-height: initial
 
+p, ul
+  margin: 0
+  margin-bottom: 24px
+  &:last-child
+    margin-bottom: 0
+
 a
   font-weight: 700
   color: inherit
@@ -128,10 +134,11 @@ a
 
 .side-note
   display: flex
+  margin: 16px 0
   align-items: center
   letter-spacing: 1px
   font-size: 0.9em
-  
+
   .sigil
     font-size: 64px
     padding: 24px 48px
@@ -223,7 +230,7 @@ footer
 .cta
   display: inline-block
   padding: 8px 16px
-  margin: 6px 9px
+  margin: 0 9px
 
   border-style: solid
   border-width: 2px
@@ -273,6 +280,9 @@ body > section
     padding-bottom: 0
 
 .content
+  display: flex
+  flex-direction: column
+
   +for_breakpoint(desktop wide)
     width: 800px
 
@@ -282,12 +292,13 @@ body > section
 .split
   display: flex
 
-  +for_breakpoint(desktop)
-    width: 800px
-  
-  +for_breakpoint(wide)
-    min-width: 800px
-    width: 1280px
+  body > section > &
+    +for_breakpoint(desktop)
+      width: 800px
+    
+    +for_breakpoint(wide)
+      min-width: 800px
+      width: 1280px
 
   +for_breakpoint(mobile tablet desktop)
     flex-direction: column
@@ -411,7 +422,7 @@ body > section
     margin-bottom: -6px
 
   .doc-wrapper
-    padding: 32px 48px
+    padding: 48px
     
     h2
       margin: 0 0 8px 0

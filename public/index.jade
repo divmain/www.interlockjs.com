@@ -95,33 +95,27 @@ section
     :markdown
       The core of Interlock is very small - many features that Interlock provides are implemented as plugins.  All compilation steps are [fully documented](/docs/extensibility) with an exploratory interface, and plugins tend to be short and sweet.
 
-    .split
-      .block
-        :markdown
-          Interlock makes no distinction between "loaders" and "plugins".  Ultimately, both effect the output of the build, and a separate   And with other tools, the line has often become rather blurry, in practice.
-        .container
-          a.cta(href="/docs/extensibility") Developer documentation
-          a.cta(href="/docs/cookbook") Example plugins
+      Interlock makes no distinction between "loaders" and "plugins".  Ultimately, both effect the output of the build, and a separate   And with other tools, the line has often become rather blurry, in practice.
 
-      .block.fit
-        pre.console
-          code(class="language-javascript").
-            export default function (opts = {}) {
-              const isJsonFile = opts.filter || /\.json$/;
-              return (override, transform) => {
-                transform("readSource", module => {
-                  if (isJsonFile.test(module.path)) {
-                    module = Object.assign({}, module, {
-                      rawSource: `module.exports = ${module.rawSource};`
-                    });
-                  }
-                  return module;
+    pre.console
+      code(class="language-javascript").
+        export default function (opts = {}) {
+          const isJsonFile = opts.filter || /\.json$/;
+          return (override, transform) => {
+            transform("readSource", module => {
+              if (isJsonFile.test(module.path)) {
+                module = Object.assign({}, module, {
+                  rawSource: `module.exports = ${module.rawSource};`
                 });
-              };
-            }
+              }
+              return module;
+            });
+          };
+        }
 
-    .pull-right
-
+    .container
+      a.cta(href="/docs/extensibility") Developer documentation
+      a.cta(href="/docs/cookbook") Example plugins
 
 section.glass
 
