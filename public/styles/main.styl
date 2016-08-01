@@ -325,6 +325,29 @@ body > section
     +for_breakpoint(mobile)
       flex-basis: 100%
 
+#scroll-to-top
+  position: fixed
+  display: flex
+  align-items: center
+  justify-content: center
+
+  color: white
+  background-color: transparentify(neutral-dark, 0.5)
+  font-size: 24px
+
+  top: 60px
+  right: 50vw
+  
+  width: 48px
+  height: 48px
+  border-radius: 24px
+
+  transition: opacity .25s ease-in-out
+  opacity: 0
+
+  i
+    position: relative
+    top: -2px
 
 .module-system
   display: flex

@@ -48,7 +48,6 @@
   window.addEventListener("load", function () {
     // Setup scrolling for all in-page links.
     document.querySelectorAll("a").forEach(function (el) {
-      console.log(el.baseURI, document.location.href, el.hash)
       if (el.baseURI === document.location.href && el.hash) {
         el.addEventListener("click", scrollTo(el.hash, ANIMATION_DURATION));
       }
@@ -59,4 +58,35 @@
       scrollTo(document.location.hash, ANIMATION_DURATION)();
     }
   });
+
+  window.scrollToTop = scrollTo("#top", 1000);
+
+  // Hide or unhide the scroll-to-top button.
+  function onScroll () {
+    var scrollToTop = document.querySelector("#scroll-to-top")
+    if (document.body.scrollTop > 250) {
+      scrollToTop.style.display = "flex";
+      setTimeout(function () {
+        scrollToTop.style.opacity = 1;
+      }, 0);
+    } else {
+      scrollToTop.style.display = "";
+      scrollToTop.style.opacity = "";
+    }
+  }
+
+  function debounce(fn, delay) {
+    var timeout;
+    return function () {
+      var ctx = this;
+      var args = arguments;
+      clearTimeout(timeout);
+      timeout = setTimeout(function () {
+        fn.apply(ctx, args);
+      }, delay);
+    };
+  }
+
+  window.addEventListener("load", debounce(onScroll, 0));
+  window.addEventListener("scroll", debounce(onScroll, 250));
 })();
