@@ -282,9 +282,13 @@ body > section
 .split
   display: flex
 
-  +for_breakpoint(desktop wide)
+  +for_breakpoint(desktop)
     width: 800px
   
+  +for_breakpoint(wide)
+    min-width: 800px
+    width: 1280px
+
   +for_breakpoint(mobile tablet desktop)
     flex-direction: column
 

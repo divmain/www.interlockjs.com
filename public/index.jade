@@ -60,34 +60,33 @@ section
 
 
 section.glass
-  .content
-    h2 Friendly
+  h2 Friendly
 
-    .split
-      .block
-        :markdown
-          All core [compilation options](/docs/options) can be set through command-line flags.  When command-line flags turn cumbersome, Interlock provides a rich JS API and configuration format.
+  .split
+    .block
+      :markdown
+        All core [compilation options](/docs/options) can be set through command-line flags.  When command-line flags turn cumbersome, Interlock provides a rich JS API and configuration format.
 
-      .block.fit
-        pre.console.
-          $ ilk build --help
+    .block.fit
+      pre.console.
+        $ ilk build --help
 
-          Options:
-            --verbose, -v   Compiler verbosity (sent to STDOUT).          [count]
-            --config, -c    Path to Interlock config file.                [string]
-            --preset        Pull in pre-determined Interlock configuration
-                            options.                                      [string]
-            --help          Show help                                     [boolean]
-            --src           Path to source directory.                     [string]
-            --dest          Path to output directory.                     [string]
-            --entry, -e     Your application entry point, followed by its output
-                            bundle filename.                              [string]
-            --split, -s     Your application split point, followed by its output
-                            bundle filename.                              [string]
-            --ext           Extensions to use for require() resolution.   [string]
-            --namespace     Namespace to use for your project.            [string]
+        Options:
+          --verbose, -v   Compiler verbosity (sent to STDOUT).          [count]
+          --config, -c    Path to Interlock config file.                [string]
+          --preset        Pull in pre-determined Interlock configuration
+                          options.                                      [string]
+          --help          Show help                                     [boolean]
+          --src           Path to source directory.                     [string]
+          --dest          Path to output directory.                     [string]
+          --entry, -e     Your application entry point, followed by its output
+                          bundle filename.                              [string]
+          --split, -s     Your application split point, followed by its output
+                          bundle filename.                              [string]
+          --ext           Extensions to use for require() resolution.   [string]
+          --namespace     Namespace to use for your project.            [string]
 
-          [...]
+        [...]
 
 
 section
