@@ -23,21 +23,24 @@ section#internal-architecture
   .content
     h2 Internal Architecture
     :markdown
-      Interlock is written in the purely-functional style, with one caveat.  Namely, Interlock is built on **pluggable functions.**
-
-
       ### Pluggable Functions
 
-      Pluggable functions are like pure functions, taking inputs, delegating certain computations to other functions (often pluggables), and returning an input.
+       Interlock's compilation is built on pluggable functions.
 
-      However, pluggable functions also have a special context (`this`) that is passed into the top-level pluggable function that is invoked.  Normally, this would be the `compile` pluggable.  This context is passed down into each pluggable's children.
+      Pluggable functions are like pure functions, taking inputs, delegating certain computations to other functions (often pluggables), and returning an input.  However, there are a few fundamental differences.
 
-      Secondly, each pluggable function is wrapped in a `pluggable` call, and its dependencies are explicitly defined.
+      - Each function is wrapped in a `pluggable` call at its point of definition, and its dependencies are explicitly defined.
+      - Pluggable functions expect a special `this` context when invoked.  This context is constructed for and passed into the top-level pluggable function (normally the `compile` pluggable).  The context is then made available to the top-level pluggable's dependencies, their dependencies, and so on.
+      - Interlock allows you to override or transform the behavior and output of any of the pluggables that are defined.
+      - Pluggable functions are asynchronous by nature.  They all resolve to a promise under the hood.  This applies both to the default functionality, as well as any functionality that a plugin might define.
 
-      These pluggables are written like pure functions, taking inputs, delegating certain computations to other functions (often pluggables), and returning an output.  Through its plugin system, Interlock allows you to override or transform the behavior and output of any of the pluggables that are defined.
+      In essence, compilation is comprised of a hierarchy of function calls.  These function calls behave as extension points, where their output and behavior can be overridden or transformed, either synchronously or asynchronously.
 
-      To learn more about pluggables, take a look at the [README](https://github.com/interlockjs/pluggable#pluggable).
+      To dig deeper:
 
+      - Read through the Pluggable [README](https://github.com/interlockjs/pluggable#pluggable).
+      - [Browse through](#compilation-pluggables) the pluggable functions that Interlock provides.
+      - [Learn how](#writing-a-plugin) to override one of Interlock's pluggables.
 
       ### Intermediate Formats
 
