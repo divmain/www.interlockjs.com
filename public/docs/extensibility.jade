@@ -6,9 +6,9 @@ section
     :markdown
       - [Internal Architecture](#internal-architecture)
         - [Pluggable Functions](#pluggable-functions)
-        - [Intermediate Formats](#intermediate-formats)
+        - [Intermediate Data-structures](#intermediate-data-structures)
         - [Babel](#babel)
-        - [Tips](#tips)
+        - [Immutability](#immutability)
       - [Definition of Terms](#definition-of-terms)
       - [Writing a Plugin](#writing-a-plugin)
       - [Compilation Pluggables](#compilation-pluggables)
@@ -42,23 +42,23 @@ section#internal-architecture
       - [Browse through](#compilation-pluggables) the pluggable functions that Interlock provides.
       - [Learn how](#writing-a-plugin) to override one of Interlock's pluggables.
 
-      ### Intermediate Formats
+      ### Intermediate Data-structures
 
       Interlock tries to pair a piece of data with its ideal structure.
 
-      In the case of JavaScript, this means that AST is used to represent code from the point of parsing until bundle-code and sourcemaps are generated.  The CSS plugin treats CSS similarly, using PostCSS's AST format.
+      In the case of JavaScript, this means that AST is used to represent code.  This is true from the point of parsing until bundle-code and sourcemaps are generated.  The CSS plugin treats CSS similarly, using PostCSS's AST format.
 
-      In general, strings should be avoided unless they are the obvious choice.  For example, a bundle's code must ultimately be a string or a buffer in order to be written to a file.  Because Babel's generator outputs a string, we will transform AST to string at the very end of compilation.
+      In general, strings should be avoided unless they are the obvious choice.  For example, a bundle's code must ultimately be a string or a buffer in order to be written to a file.  Because Babel's generator outputs a string, we will transform a bundle's AST to string just before the end of compilation.
 
 
       ### Babel
 
-      Interlock relies on Babel for code parsing, transformation, and generation.  Some efforts are underway to optimize and provide potentially better-performing alternatives.  However, Babel is the most significant dependency that Interlock takes.
+      Interlock relies on Babel for code parsing, transformation, and generation.  That makes Babel the most significant dependency upon which Interlock relies.
 
       Babel itself is split into several packages, which are mostly maintained [here](https://github.com/babel/babel/tree/master/packages).  Each Babel package has its own README and test suite.  If you need to understand more about how Interlock consumes Babel packages, the READMEs and tests are a good place to start.  There are also several active channels in [Babel's Slack community](https://slack.babeljs.io/);
 
 
-      ### Tips
+      ### Immutability
 
       Although it is not enforced, it is recommended to treat all input/output data-structures as immutable.  For example, a method that returns a module with a new prop will usually be written as `assign({}, module, { newProp })`.
 
