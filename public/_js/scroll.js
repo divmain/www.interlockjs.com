@@ -47,7 +47,8 @@
 
   window.addEventListener("load", function () {
     // Setup scrolling for all in-page links.
-    document.querySelectorAll("a").forEach(function (el) {
+    var links = document.querySelectorAll("a");
+    Array.prototype.forEach.call(links, function (el) {
       if (el.baseURI === document.location.href && el.hash) {
         el.addEventListener("click", scrollTo(el.hash, ANIMATION_DURATION));
       }
