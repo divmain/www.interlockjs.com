@@ -28,6 +28,7 @@
     "js-yaml": "^3.6.1",
     "jstransformer-markdown-it": "^1.0.0",
     "pug": "^2.0.0-beta6",
+    "stylus": "^0.54.5",
     "surge": "^0.18.0"
   }
 }
