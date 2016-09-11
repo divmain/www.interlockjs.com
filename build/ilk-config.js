@@ -25,9 +25,7 @@ module.exports = {
 
   plugins: [
     jadePlugin,
-    interlockHtml({
-      filter: /\.(html?)|(jade)$/
-    })
+    interlockHtml()
   ],
 
   // babelConfig: {
