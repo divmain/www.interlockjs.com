@@ -53,7 +53,9 @@ module.exports = {
 function filterHidden (relPaths) {
   return relPaths.filter(relPath => {
     const pathSegments = relPath.split("/");
-    const filename = pathSegments[pathSegments.length - 1];
-    return filename.indexOf("_") !== 0;
+    return pathSegments.reduce(
+      (memo, segment) => memo && segment.indexOf("_") !== 0,
+      true
+    );
   });
 }
