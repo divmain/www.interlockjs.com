@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "harp compile",
+    "build": "ilk build -c ./build/ilk-config.js",
     "deploy": "npm run build && surge -p www/ -d interlockjs.com",
     "dev": "open http://localhost:9000/ & harp server",
     "test": "echo 'WARNING: No tests provided'"
@@ -20,7 +20,14 @@
   },
   "homepage": "https://github.com/interlockjs/interlockjs.com",
   "devDependencies": {
+    "glob": "^7.0.6",
     "harp": "github:sintaxi/harp#v0.21.0-pre",
+    "interlock": "^0.10.1",
+    "interlock-css": "^0.1.0",
+    "interlock-html": "^0.1.0",
+    "js-yaml": "^3.6.1",
+    "jstransformer-markdown-it": "^1.0.0",
+    "pug": "^2.0.0-beta6",
     "surge": "^0.18.0"
   }
 }

@@ -1,137 +1,141 @@
-header.landing
-  .logo-wrapper
-    include _assets/interlock-logo.svg
+extends _layout.jade
 
-  .landing-header
-    h1 Interlock.js
-    p.subtitle Unify your build.
-    a.cta(href="#quick-start") Get Started
-    a.cta(href="//github.com/interlockjs/interlock") Open on GitHub
+block content
 
+  header.landing
+    .logo-wrapper
+      include _assets/interlock-logo.svg
 
-section
-  .content
-    h2 A build tool for universal javascript and beyond.
-
-    .bullet-points
-      a(href="https://github.com/interlockjs/plugins/tree/master/packages/css").bullet-point
-        .illustration
-          include _assets/first-class.svg
-        .description
-          h3 First-class CSS and HTML
-          .blurb Transform and combine CSS and HTML with the same power and ease that you do your JavaScript.  Transform inline JS and CSS inside your HTML.
-        i.ion-chevron-right.more-info
-        
-      a(href="/docs/cookbook/universal").bullet-point
-        .illustration
-          include _assets/universal.svg
-        .description
-          h3 Universal
-          .blurb Node.js builds without the hassle.  No require hooks, readable output, as-expected require semantics.
-        i.ion-chevron-right.more-info
-
-      a(href="https://github.com/interlockjs/plugins/tree/master/packages/h2").bullet-point
-        .illustration
-          include _assets/future-readiness.svg
-        .description
-          h3 Future ready
-          .blurb With rich support for HTTP/2, Interlock won't restrict you to old deployment paradigms for your SPA.
-        i.ion-chevron-right.more-info
-
-      a(href="#extensibility").bullet-point
-        .illustration
-          include _assets/extensibility.svg
-        .description
-          h3 Easily extensible
-          .blurb A plugin system that is comprehensible and simple, with minimal boilerplate.
-        i.ion-chevron-right.more-info
-
-      .bullet-point
-        .illustration
-          include _assets/interoperate.svg
-        .description
-          h3 Interoperable
-          .blurb
-            | No need to give up on your current toolset! Interlock supports 
-            a(href="https://github.com/interlockjs/plugins/tree/master/packages/webpack-loaders") Webpack loaders 
-            | and 
-            a(href="https://github.com/interlockjs/plugins/tree/master/packages/browserify-transforms") Browserify transforms
-            |, and integrates with the Webpack and 
-            a(href="https://github.com/interlockjs/plugins/tree/master/packages/requirejs-interop") Require.js 
-            | runtimes.
-
-      a(href="https://github.com/interlockjs/plugins/tree/master/packages/share").bullet-point
-        .illustration
-          include _assets/grows-with-you.svg
-        .description
-          h3 Grows with you
-          .blurb Its module system allows you to share code across teams and builds, cutting down on huge, monolithic builds. A seamless experience, whether you're a team of two or a team of two hundred.
-        i.ion-chevron-right.more-info
+    .landing-header
+      h1 Interlock.js
+      p.subtitle Unify your build.
+      a.cta(href="#quick-start") Get Started
+      a.cta(href="//github.com/interlockjs/interlock") Open on GitHub
 
 
-section.glass
-  h2 Friendly
+  section
+    .content
+      h2 A build tool for universal javascript and beyond.
 
-  .split
-    .block
-      :markdown
-        All core [compilation options](/docs/options) can be set through command-line flags.  When command-line flags turn cumbersome, Interlock provides a rich JS API and configuration format.
+      .bullet-points
+        a(href="https://github.com/interlockjs/plugins/tree/master/packages/css").bullet-point
+          .illustration
+            include _assets/first-class.svg
+          .description
+            h3 First-class CSS and HTML
+            .blurb Transform and combine CSS and HTML with the same power and ease that you do your JavaScript.  Transform inline JS and CSS inside your HTML.
+          i.ion-chevron-right.more-info
+          
+        a(href="/docs/cookbook/universal").bullet-point
+          .illustration
+            include _assets/universal.svg
+          .description
+            h3 Universal
+            .blurb Node.js builds without the hassle.  No require hooks, readable output, as-expected require semantics.
+          i.ion-chevron-right.more-info
 
-    .block.fit
-      pre.console.
-        $ ilk build --help
+        a(href="https://github.com/interlockjs/plugins/tree/master/packages/h2").bullet-point
+          .illustration
+            include _assets/future-readiness.svg
+          .description
+            h3 Future ready
+            .blurb With rich support for HTTP/2, Interlock won't restrict you to old deployment paradigms for your SPA.
+          i.ion-chevron-right.more-info
 
-        Options:
-          --verbose, -v   Compiler verbosity (sent to STDOUT).          [count]
-          --config, -c    Path to Interlock config file.                [string]
-          --preset        Pull in pre-determined Interlock configuration
-                          options.                                      [string]
-          --help          Show help                                     [boolean]
-          --src           Path to source directory.                     [string]
-          --dest          Path to output directory.                     [string]
-          --entry, -e     Your application entry point, followed by its output
-                          bundle filename.                              [string]
-          --split, -s     Your application split point, followed by its output
-                          bundle filename.                              [string]
-          --ext           Extensions to use for require() resolution.   [string]
-          --namespace     Namespace to use for your project.            [string]
+        a(href="#extensibility").bullet-point
+          .illustration
+            include _assets/extensibility.svg
+          .description
+            h3 Easily extensible
+            .blurb A plugin system that is comprehensible and simple, with minimal boilerplate.
+          i.ion-chevron-right.more-info
 
-        [...]
+        .bullet-point
+          .illustration
+            include _assets/interoperate.svg
+          .description
+            h3 Interoperable
+            .blurb
+              | No need to give up on your current toolset! Interlock supports 
+              a(href="https://github.com/interlockjs/plugins/tree/master/packages/webpack-loaders") Webpack loaders 
+              | and 
+              a(href="https://github.com/interlockjs/plugins/tree/master/packages/browserify-transforms") Browserify transforms
+              |, and integrates with the Webpack and 
+              a(href="https://github.com/interlockjs/plugins/tree/master/packages/requirejs-interop") Require.js 
+              | runtimes.
+
+        a(href="https://github.com/interlockjs/plugins/tree/master/packages/share").bullet-point
+          .illustration
+            include _assets/grows-with-you.svg
+          .description
+            h3 Grows with you
+            .blurb Its module system allows you to share code across teams and builds, cutting down on huge, monolithic builds. A seamless experience, whether you're a team of two or a team of two hundred.
+          i.ion-chevron-right.more-info
 
 
-section#extensibility
-  .content
-    h2 Powerful extensibility
-    :markdown
-      The core of Interlock is very small - many features that Interlock provides are implemented as plugins.  All compilation steps are [fully documented](/docs/extensibility) with an exploratory interface, and plugins tend to be short and sweet.
+  section.glass
+    h2 Friendly
 
-      Interlock makes no distinction between "loaders" and "plugins".  Ultimately, both effect the output of the build, and a single API makes for easier-to-understand interactions between your plugins and the compilation.
+    .split
+      .block
+        :markdown-it
+          All core [compilation options](/docs/options) can be set through command-line flags.  When command-line flags turn cumbersome, Interlock provides a rich JS API and configuration format.
 
-    pre.console
-      code(class="language-javascript").
-        export default function (opts = {}) {
-          const isJsonFile = opts.filter || /\.json$/;
-          return (override, transform) => {
-            transform("readSource", module => {
-              if (isJsonFile.test(module.path)) {
-                module = Object.assign({}, module, {
-                  rawSource: `module.exports = ${module.rawSource};`
-                });
-              }
-              return module;
-            });
-          };
-        }
+      .block.fit
+        pre.console.
+          $ ilk build --help
 
-    .container
-      a.cta(href="/docs/extensibility") Developer documentation
-      a.cta(href="/docs/cookbook/plugins") Example plugins
+          Options:
+            --verbose, -v   Compiler verbosity (sent to STDOUT).          [count]
+            --config, -c    Path to Interlock config file.                [string]
+            --preset        Pull in pre-determined Interlock configuration
+                            options.                                      [string]
+            --help          Show help                                     [boolean]
+            --src           Path to source directory.                     [string]
+            --dest          Path to output directory.                     [string]
+            --entry, -e     Your application entry point, followed by its output
+                            bundle filename.                              [string]
+            --split, -s     Your application split point, followed by its output
+                            bundle filename.                              [string]
+            --ext           Extensions to use for require() resolution.   [string]
+            --namespace     Namespace to use for your project.            [string]
 
-section.glass
+          [...]
 
-section#quick-start
-  .content
-    :markdown
-      ## Quick Start
 
-      TODO
+  section#extensibility
+    .content
+      h2 Powerful extensibility
+      :markdown-it
+        The core of Interlock is very small - many features that Interlock provides are implemented as plugins.  All compilation steps are [fully documented](/docs/extensibility) with an exploratory interface, and plugins tend to be short and sweet.
+
+        Interlock makes no distinction between "loaders" and "plugins".  Ultimately, both effect the output of the build, and a single API makes for easier-to-understand interactions between your plugins and the compilation.
+
+      pre.console
+        code(class="language-javascript").
+          export default function (opts = {}) {
+            const isJsonFile = opts.filter || /\.json$/;
+            return (override, transform) => {
+              transform("readSource", module => {
+                if (isJsonFile.test(module.path)) {
+                  module = Object.assign({}, module, {
+                    rawSource: `module.exports = ${module.rawSource};`
+                  });
+                }
+                return module;
+              });
+            };
+          }
+
+      .container
+        a.cta(href="/docs/extensibility") Developer documentation
+        a.cta(href="/docs/cookbook/plugins") Example plugins
+
+  section.glass
+
+  section#quick-start
+    .content
+      :markdown-it
+        ## Quick Start
+
+        TODO

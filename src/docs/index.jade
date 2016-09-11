@@ -1,5 +1,8 @@
-section.glass
+extends ../_layout.jade
 
-section
-  for article, slug in public.docs._data
-    a(href="/docs/#{ slug }") #{ article.title }
+block content
+  section.glass
+
+  section
+    for article in articles
+      a(href=`/docs/${ article.slug }`) #{ article.title }
