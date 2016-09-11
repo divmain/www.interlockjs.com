@@ -21,7 +21,6 @@
   "homepage": "https://github.com/interlockjs/interlockjs.com",
   "devDependencies": {
     "glob": "^7.0.6",
-    "harp": "github:sintaxi/harp#v0.21.0-pre",
     "interlock": "^0.10.1",
     "interlock-css": "^0.1.0",
     "interlock-html": "^0.1.0",
