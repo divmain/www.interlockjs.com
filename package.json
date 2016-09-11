@@ -6,7 +6,7 @@
   "scripts": {
     "build": "ilk build -c ./build/ilk-config.js",
     "deploy": "npm run build && surge -p www/ -d interlockjs.com",
-    "dev": "open http://localhost:9000/ & harp server",
+    "dev": "open http://localhost:1337/index.html & ilk server -c ./build/ilk-config.js",
     "test": "echo 'WARNING: No tests provided'"
   },
   "repository": {
