@@ -5,6 +5,7 @@ const stylusPlugin = require("./stylus-plugin");
 const interlockHtml = require("interlock-html");
 const interlockCss = require("interlock-css");
 const interlockRaw = require("interlock-raw");
+const interlockBabili = require("interlock-babili");
 
 
 const srcRoot = path.resolve(__dirname, "../src");
@@ -32,6 +33,7 @@ module.exports = {
     stylusPlugin,
     interlockHtml(),
     interlockCss(),
-    interlockRaw({ exclude: excludeFromRaw })
+    interlockRaw({ exclude: excludeFromRaw }),
+    interlockBabili()
   ]
 };
