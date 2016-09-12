@@ -1,5 +1,4 @@
 const path = require("path");
-const glob = require("glob");
 const { generateEntries, generateRawEntries } = require("./helpers");
 const jadePlugin = require("./jade-plugin");
 const stylusPlugin = require("./stylus-plugin");
