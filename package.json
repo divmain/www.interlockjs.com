@@ -6,7 +6,7 @@
   "scripts": {
     "build": "ilk build -c ./build/ilk-config.js",
     "deploy": "npm run build && surge -p www/ -d interlockjs.com",
-    "dev": "open http://localhost:1337/index.html & ilk server -c ./build/ilk-config.js",
+    "dev": "open http://localhost:1337 & ilk server -c ./build/ilk-config.js",
     "test": "echo 'WARNING: No tests provided'"
   },
   "repository": {
@@ -21,7 +21,7 @@
   "homepage": "https://github.com/interlockjs/interlockjs.com",
   "devDependencies": {
     "glob": "^7.0.6",
-    "interlock": "^0.10.1",
+    "interlock": "^0.10.4",
     "interlock-css": "^0.1.0",
     "interlock-html": "^0.1.1",
     "interlock-raw": "^0.1.3",
