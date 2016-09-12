@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "ilk build -c ./build/ilk-config.js",
-    "deploy": "npm run build && surge -p www/ -d interlockjs.com",
+    "deploy": "npm run build && surge -p dist/ -d interlockjs.com",
     "dev": "open http://localhost:1337 & ilk server -c ./build/ilk-config.js",
     "test": "echo 'WARNING: No tests provided'"
   },
