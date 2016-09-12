@@ -13,13 +13,6 @@ const destRoot = path.resolve(__dirname, "../dist")
 
 const excludeFromRaw = ["js", "jade", "html", "styl", "css"];
 
-const jsEntries = generateEntries(srcRoot, "js", null);
-const jadeEntries = generateEntries(srcRoot, "jade", "html");
-const htmlEntries = generateEntries(srcRoot, "html", null);
-const stylusEntries = generateEntries(srcRoot, "styl", "css");
-const cssEntries = generateEntries(srcRoot, "css", null);
-const rawEntries = generateRawEntries(srcRoot, excludeFromRaw);
-
 
 module.exports = {
   srcRoot,
@@ -27,12 +20,12 @@ module.exports = {
 
   entry: Object.assign(
     {},
-    jsEntries,
-    htmlEntries,
-    jadeEntries,
-    stylusEntries,
-    cssEntries,
-    rawEntries
+    generateEntries(srcRoot, "js", null),
+    generateEntries(srcRoot, "html", null),
+    generateEntries(srcRoot, "jade", "html"),
+    generateEntries(srcRoot, "styl", "css"),
+    generateEntries(srcRoot, "css", null),
+    generateRawEntries(srcRoot, excludeFromRaw)
   ),
 
   plugins: [
