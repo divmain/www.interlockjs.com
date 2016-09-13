@@ -6,7 +6,7 @@ const JSON_PATH = "http://rawgit.com/interlockjs/interlock/master/docs/compilati
 
 function orderChildren (node, anscestors) {
   if (node.children) {
-    node.children = node.children.map(function (child, idx) {
+    node.children = node.children.map((child, idx) => {
       const childAnscestors = anscestors.concat(node);
       child = orderChildren(child, childAnscestors);
       child.position = idx;

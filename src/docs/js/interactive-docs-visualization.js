@@ -35,7 +35,7 @@ loadData().then(rootNode => {
 
   path
     .attr("d", getArcPath)
-    .style("fill", function (d) { return getColor(); })
+    .style("fill", d => getColor())
     .classed("graph-arc", true)
     .attr("stroke-width", 2)
     .attr("stroke", "#f0f0f0")
