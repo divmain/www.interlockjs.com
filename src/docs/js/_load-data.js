@@ -18,7 +18,7 @@ function orderChildren (node, anscestors) {
   return node;
 }
 
-export default () => fetch(JSON_PATH)
+exports.default = () => fetch(JSON_PATH)
   .then(response => response.json())
   .then(data => 
     orderChildren(hierarchy(data), [])

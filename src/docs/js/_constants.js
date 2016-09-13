@@ -1,3 +1,3 @@
-export const width = 700;
-export const height = width / 2;
-export const radius = height;
+const widht = exports.width = 700;
+const height = exports.height = width / 2;
+exports.radius = height;

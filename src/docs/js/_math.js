@@ -4,14 +4,14 @@ import { arc } from "d3-shape";
 import { radius } from "./_constants";
 
 
-export const xScale = scaleLinear()
+const xScale = exports.xScale = scaleLinear()
   .range([0, Math.PI]);
 
-export const yScale = scalePow()
+const yScale = exports.yScale = scalePow()
   .exponent(0.7)
   .range([0, radius]);
 
-export const getArcPath = arc()
+exports.getArcPath = arc()
   .startAngle(d =>
     (Math.PI / 2) - Math.max(0, Math.min(2 * Math.PI, xScale(d.x0)))
   )

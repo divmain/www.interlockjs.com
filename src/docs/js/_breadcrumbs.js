@@ -1,4 +1,4 @@
-export function buildBreadcrumb (nodes, selector, onClick) {
+exports.buildBreadcrumb = (nodes, selector, onClick) => {
   window.requestAnimationFrame(() => {
     const breadcrumb = document.createDocumentFragment();
 
@@ -24,4 +24,4 @@ export function buildBreadcrumb (nodes, selector, onClick) {
     parent.innerHTML = "";
     parent.appendChild(breadcrumb);
   });
-}
+};
