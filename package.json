@@ -29,7 +29,7 @@
     "d3-shape": "^1.0.3",
     "d3-transition": "^1.0.2",
     "glob": "^7.0.6",
-    "interlock": "^0.10.4",
+    "interlock": "^0.10.5",
     "interlock-babili": "^0.1.0",
     "interlock-css": "^0.1.0",
     "interlock-html": "^0.1.1",
