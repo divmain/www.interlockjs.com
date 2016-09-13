@@ -26,7 +26,7 @@ html(lang='en')
 
   body
     .header
-      a(href="/#{ relPath == 'index.jade' ? '#quick-start' : '' }") #{ relPath == 'index.jade' ? 'Quick Start' : 'Home' }
+      a(href=`/${ nsPath === 'index.jade' ? '#quick-start' : '' }`) #{ nsPath == 'index.jade' ? 'Quick Start' : 'Home' }
       a(href="/docs") Documentation
       a(href="https://gitter.im/interlockjs/interlock") Chat
       a(href="https://github.com/interlockjs/interlock/issues") Issues
