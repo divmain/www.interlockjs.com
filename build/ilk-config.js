@@ -1,57 +1,17 @@
 const path = require("path");
-const fs = require("fs");
-const yaml = require("js-yaml");
-
-const { generateEntries, generateRawEntries } = require("./helpers");
-
-const interlockPug = require("interlock-pug");
-const interlockStylus = require("interlock-stylus");
-const interlockHtml = require("interlock-html");
-const interlockCss = require("interlock-css");
-const interlockRaw = require("interlock-raw");
-const interlockBabili = require("interlock-babili");
-const autoprefixer = require("autoprefixer");
+const staticSiteConfig = require("interlock-static-site-config");
 
 
 const srcRoot = path.resolve(__dirname, "../src");
 const destRoot = path.resolve(__dirname, "../dist")
 
-const excludeFromRaw = ["js", "jade", "html", "styl", "css"];
-
-
-module.exports = {
+const { entry, plugins } = staticSiteConfig({
   srcRoot,
-  destRoot,
+  pug: "jade",
+  stylus: "styl",
+  autoprefixer: true,
+  minify: true
+});
 
-  entry: Object.assign(
-    {},
-    generateEntries(srcRoot, "js", null),
-    generateEntries(srcRoot, "html", null),
-    generateEntries(srcRoot, "jade", "html"),
-    generateEntries(srcRoot, "styl", "css"),
-    generateEntries(srcRoot, "css", null),
-    generateRawEntries(srcRoot, excludeFromRaw)
-  ),
 
-  plugins: [
-    interlockPug({
-      filter: /\.jade$/,
-      getLocals: module => {
-        try {
-          const dataPath = path.resolve(module.path, "../_locals.yaml");
-          return yaml.safeLoad(fs.readFileSync(dataPath, 'utf8'));
-        } catch (err) {
-          return {};
-        }
-      }
-    }),
-    interlockStylus(),
-    interlockHtml(),
-    interlockCss({
-      mode: "bundle",
-      plugins: [ autoprefixer ]
-    }),
-    interlockRaw({ exclude: excludeFromRaw }),
-    interlockBabili()
-  ]
-};
+module.exports = { srcRoot, destRoot, entry, plugins };
