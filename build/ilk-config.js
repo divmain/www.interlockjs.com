@@ -1,7 +1,7 @@
 const path = require("path");
 const { generateEntries, generateRawEntries } = require("./helpers");
 const jadePlugin = require("./jade-plugin");
-const stylusPlugin = require("./stylus-plugin");
+const interlockStylus = require("interlock-stylus");
 const interlockHtml = require("interlock-html");
 const interlockCss = require("interlock-css");
 const interlockRaw = require("interlock-raw");
@@ -30,7 +30,7 @@ module.exports = {
 
   plugins: [
     jadePlugin,
-    stylusPlugin,
+    interlockStylus(),
     interlockHtml(),
     interlockCss(),
     interlockRaw({ exclude: excludeFromRaw }),
