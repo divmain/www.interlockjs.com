@@ -3,12 +3,14 @@ const fs = require("fs");
 const yaml = require("js-yaml");
 
 const { generateEntries, generateRawEntries } = require("./helpers");
+
 const interlockPug = require("interlock-pug");
 const interlockStylus = require("interlock-stylus");
 const interlockHtml = require("interlock-html");
 const interlockCss = require("interlock-css");
 const interlockRaw = require("interlock-raw");
 const interlockBabili = require("interlock-babili");
+const autoprefixer = require("autoprefixer");
 
 
 const srcRoot = path.resolve(__dirname, "../src");
@@ -45,7 +47,10 @@ module.exports = {
     }),
     interlockStylus(),
     interlockHtml(),
-    interlockCss(),
+    interlockCss({
+      mode: "bundle",
+      plugins: [ autoprefixer ]
+    }),
     interlockRaw({ exclude: excludeFromRaw }),
     interlockBabili()
   ]
