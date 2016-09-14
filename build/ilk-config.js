@@ -1,6 +1,9 @@
 const path = require("path");
+const fs = require("fs");
+const yaml = require("js-yaml");
+
 const { generateEntries, generateRawEntries } = require("./helpers");
-const jadePlugin = require("./jade-plugin");
+const interlockPug = require("interlock-pug");
 const interlockStylus = require("interlock-stylus");
 const interlockHtml = require("interlock-html");
 const interlockCss = require("interlock-css");
@@ -29,7 +32,17 @@ module.exports = {
   ),
 
   plugins: [
-    jadePlugin,
+    interlockPug({
+      filter: /\.jade$/,
+      getLocals: module => {
+        try {
+          const dataPath = path.resolve(module.path, "../_locals.yaml");
+          return yaml.safeLoad(fs.readFileSync(dataPath, 'utf8'));
+        } catch (err) {
+          return {};
+        }
+      }
+    }),
     interlockStylus(),
     interlockHtml(),
     interlockCss(),
