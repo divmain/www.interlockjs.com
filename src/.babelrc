@@ -1,3 +1,12 @@
 {
-  "presets": ["es2015"]
+  "presets": ["es2015"],
+  "plugins": [
+    ["transform-react-jsx", {
+      "pragma": "h"
+    }],
+    "transform-flow-strip-types",
+    "syntax-flow",
+    "syntax-jsx",
+    "transform-react-display-name"
+  ]
 }
