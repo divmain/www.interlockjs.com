@@ -6,18 +6,19 @@ import { interpolate } from "d3-interpolate";
 import loadData from "./_load-data";
 import { HalfSunburst } from "./_half-sunburst";
 import { xScale, yScale, getArcPath } from "./_math";
-import { radius } from "./_constants";
+import { height, width, radius } from "./_constants";
 
 
 loadData().then(rootNode => {
   render(
     <InteractiveWrapper
       rootNode={rootNode}
-      height={400}
-      width={800}
+      height={height}
+      width={width}
       delay={1200}
     />,
-    document.querySelector(".interactive-docs .visualization")
+    document.querySelector(".interactive-docs .visualization"),
+    document.querySelector(".interactive-docs .visualization svg")
   );
 });
 
