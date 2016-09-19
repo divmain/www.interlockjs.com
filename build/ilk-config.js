@@ -1,5 +1,6 @@
 const path = require("path");
 const staticSiteConfig = require("interlock-static-site-config");
+const htmlPrerender = require("interlock-html-prerender");
 
 
 const srcRoot = path.resolve(__dirname, "../src");
@@ -14,4 +15,12 @@ const { entry, plugins } = staticSiteConfig({
 });
 
 
-module.exports = { srcRoot, destRoot, entry, plugins };
+module.exports = {
+  srcRoot,
+  destRoot,
+  entry,
+  plugins: [
+    htmlPrerender(),
+    ...plugins
+  ]
+};

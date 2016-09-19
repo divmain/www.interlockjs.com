@@ -29,11 +29,9 @@ function addAnscestors (node, anscestors) {
   return node;
 }
 
-module.exports = () => fetch(JSON_PATH)
-  .then(response => response.json())
-  .then(data => {
-    data = orderChildren(data);
-    return addAnscestors(hierarchy(data), [])
-      .sort((a, b) => b.data.position > a.data.position)
-      .sum(d => d.size)
-  });
+module.exports = data => {
+  data = orderChildren(data);
+  return addAnscestors(hierarchy(data), [])
+    .sort((a, b) => b.data.position > a.data.position)
+    .sum(d => d.size)
+};
