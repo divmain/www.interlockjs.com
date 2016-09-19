@@ -1,7 +1,7 @@
-import { scaleLinear, scalePow } from "d3-scale";
-import { arc } from "d3-shape";
+const { scaleLinear, scalePow } = require("d3-scale");
+const { arc } = require("d3-shape");
 
-import { radius } from "./_constants";
+const { radius } = require("./_constants");
 
 
 const xScale = exports.xScale = scaleLinear()

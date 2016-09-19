@@ -1,4 +1,4 @@
-import { hierarchy } from "d3-hierarchy";
+const { hierarchy } = require("d3-hierarchy");
 
 
 const JSON_PATH = "http://rawgit.com/interlockjs/interlock/master/docs/compilation.json";

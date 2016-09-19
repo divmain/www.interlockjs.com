@@ -1,4 +1,4 @@
-import { select } from "d3-selection";
+const { select } = require("d3-selection");
 
 
 const statusBar = select(".interactive-docs .status");

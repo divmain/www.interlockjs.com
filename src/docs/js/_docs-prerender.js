@@ -4,6 +4,11 @@ const { select } = require("d3-selection");
 const { partition } = require("d3-hierarchy");
 const fetch = require("node-fetch");
 
+const loadData = require("./_load-data");
+const { getColor } = require("./_colors");
+const { getArcPath } = require("./_math");
+const { width, height } = require("./_constants");
+
 
 const PLUGGABLE_DATA = "http://rawgit.com/interlockjs/interlock/master/docs/compilation.json";
 
@@ -24,13 +29,6 @@ function cleanData (datum) {
 
 
 module.exports = () => {
-  require("babel-register");
-
-  const loadData = require("./_load-data");
-  const { getColor } = require("./_colors");
-  const { getArcPath } = require("./_math");
-  const { width, height } = require("./_constants");
-
   return fetch(PLUGGABLE_DATA)
     .then(response => response.json())
     .then(cleanData)

@@ -1,7 +1,7 @@
-import { interpolate } from "d3-interpolate";
+const { interpolate } = require("d3-interpolate");
 
-import { xScale, yScale, getArcPath } from "./_math";
-import { radius } from "./_constants";
+const { xScale, yScale, getArcPath } = require("./_math");
+const { radius } = require("./_constants");
 
 
 exports.arcTween = d => {

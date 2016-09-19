@@ -1,12 +1,12 @@
-import { select } from "d3-selection";
-import "d3-transition";
-import { partition } from "d3-hierarchy";
+const { select } = require("d3-selection");
+require("d3-transition");
+const { partition } = require("d3-hierarchy");
 
-import loadData from "./_load-data";
-import { buildBreadcrumb } from "./_breadcrumbs";
-import { updateStatusBar, clearStatusBar } from "./_status-bar";
-import { getArcPath } from "./_math";
-import { arcTween } from "./_animation";
+const loadData = require("./_load-data");
+const { buildBreadcrumb } = require("./_breadcrumbs");
+const { updateStatusBar, clearStatusBar } = require("./_status-bar");
+const { getArcPath } = require("./_math");
+const { arcTween } = require("./_animation");
 
 
 const rootNode = loadData(window.__pluggable_data__);
