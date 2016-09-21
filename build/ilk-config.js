@@ -1,6 +1,7 @@
 const path = require("path");
 const staticSiteConfig = require("interlock-static-site-config");
 const htmlPrerender = require("interlock-html-prerender");
+const buildIndex = require("./build-index");
 
 
 const srcRoot = path.resolve(__dirname, "../src");
@@ -21,6 +22,9 @@ module.exports = {
   entry,
   plugins: [
     htmlPrerender(),
+    buildIndex({
+      dest: "site-index.json"
+    }),
     ...plugins
   ]
 };

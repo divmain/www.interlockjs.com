@@ -29,6 +29,7 @@
     "d3-selection": "^1.0.2",
     "d3-shape": "^1.0.3",
     "d3-transition": "^1.0.2",
+    "elasticlunr": "^0.9.5",
     "glob": "^7.0.6",
     "interlock": "^0.10.5",
     "interlock-babili": "^0.1.0",
