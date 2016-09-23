@@ -12,10 +12,10 @@ const { arcTween } = require("./_animation");
 const rootNode = loadData(window.__pluggable_data__);
 
 const svg = select(".interactive-docs .visualization svg g");
-svg.on("mouseleave", clearStatusBar)
+svg.on("mouseleave", clearStatusBar);
 
 const path = svg.selectAll("path")
-  .data(partition()(rootNode).descendants())
+  .data(partition()(rootNode).descendants());
 
 path
   .attr("d", getArcPath)
