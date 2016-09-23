@@ -31,7 +31,10 @@ function addAnscestors (node, anscestors) {
 
 module.exports = data => {
   data = orderChildren(data);
-  return addAnscestors(hierarchy(data), [])
-    .sort((a, b) => b.data.position > a.data.position)
-    .sum(d => d.size)
+  return addAnscestors(
+    hierarchy(data)
+      .sort((a, b) => b.data.position > a.data.position)
+      .sum(d => d.children.length ? 0 : 1),
+    []
+  );
 };
