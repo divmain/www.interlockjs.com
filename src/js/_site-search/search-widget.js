@@ -163,9 +163,7 @@ class SearchBar extends Component {
     } else if (ev.keyCode === 40) {
       // DOWN
       ev.preventDefault();
-      if (selectedIdx === null) {
-        setSelectedIdx(0);
-      } else if (selectedIdx < lastResultIdx) {
+      if (selectedIdx < lastResultIdx) {
         setSelectedIdx(selectedIdx + 1);
       }
     }
@@ -218,7 +216,7 @@ export default class SearchWidget extends Component {
     this.index = props.index;
     this.state = {
       expanded: false,
-      selectedIdx: null,
+      selectedIdx: 0,
       results: []
     };
     this.onEscapeKeyDown = this.onEscapeKeyDown.bind(this);
@@ -246,7 +244,7 @@ export default class SearchWidget extends Component {
 
     this.setState({
       results,
-      selectedIdx: null
+      selectedIdx: 0
     });
   }
 
