@@ -5,7 +5,7 @@ const options = {
   include: ["matches"],
   shouldSort: true,
   tokenize: true,
-  threshold: 0.7,
+  threshold: 0.4,
   location: 0,
   distance: 7200,
   maxPatternLength: 32,
