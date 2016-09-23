@@ -19,7 +19,7 @@ const generateIndex = bundles => {
       section = $(section);
 
       const sectionId = section.attr().id;
-      const sectionTitle = section.find("h2").text() || section.attr()["data-title-alt"];
+      const sectionTitle = section.attr()["data-title-alt"] || section.find("h2").text();
 
       // Without the clone, the text will include JavaScript content from <script> tags.
       const sectionBody =
