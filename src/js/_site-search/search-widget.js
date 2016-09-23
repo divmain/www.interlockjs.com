@@ -138,7 +138,9 @@ class SearchBar extends Component {
   }
 
   componentDidMount () {
-    this.base.querySelector(".search-bar").focus();
+    const el = this.base.querySelector(".search-bar");
+    el.select();
+    el.focus();
   }
 
   onKeyDown (ev) {
