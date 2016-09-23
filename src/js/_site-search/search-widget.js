@@ -211,12 +211,12 @@ class SearchBar extends Component {
       <div className="search-popup">
         <input
           type="text"
-          className="search-bar"
+          className={`search-bar${results.length ? " has-results" : ""}`}
           onKeyDown={ev => this.onKeyDown(ev)}
           onInput={ev => setSearchText(ev.target.value)}
           placeholder="Enter your search term..."
         />
-        { results ?
+        { results.length ?
           <SearchResults
             results={results}
             selectedIdx={selectedIdx}
