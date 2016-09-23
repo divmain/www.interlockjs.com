@@ -41,20 +41,8 @@ const SearchResult = props => {
   );
 };
 
-
-// {
-//   "hash": "#definition-of-terms",
-//   "search": "",
-//   "pathname": "/docs/extensibility.html",
-//   "port": "1337",
-//   "hostname": "localhost",
-//   "host": "localhost:1337",
-//   "protocol": "http:",
-//   "origin": "http://localhost:1337",
-//   "href": "http://localhost:1337/docs/extensibility.html#definition-of-terms",
-//   "ancestorOrigins": {}
-// }
-
+// Result data-structure:
+//
 // {
 //   "item": {
 //     "baseUrl": "docs/extensibility.html",
@@ -254,7 +242,10 @@ export default class SearchWidget extends Component {
       this.index.search(searchText) :
       [];
 
-    this.setState({ results });
+    this.setState({
+      results,
+      selectedIdx: null
+    });
   }
 
   render () {
