@@ -1,19 +1,13 @@
 import { h, render, Component } from 'preact';
 
 
-const getSurgeUrl = baseUrl => `/${baseUrl}`
-  .replace(/\.html$/, "")
-  .replace(/\/index$/, "")
-  .replace(/\/$/, "");
-
 const getLinkBehavior = (baseUrl, hashString, setExpanded) => {
   let href;
   let onClick;
 
-  const surgeUrl = getSurgeUrl(baseUrl);
-  const currentPath = location.pathname.replace(/\/$/, "");
+  baseUrl = `/${baseUrl}`;
 
-  if (surgeUrl === currentPath) {
+  if (baseUrl === location.pathname) {
     href = `#${hashString}`;
     onClick = ev => {
       ev && ev.preventDefault();
@@ -21,7 +15,7 @@ const getLinkBehavior = (baseUrl, hashString, setExpanded) => {
       setExpanded(false);
     };
   } else {
-    href = `${surgeUrl}#${hashString}`;
+    href = `${baseUrl}#${hashString}`;
     onClick = null;
   }
 

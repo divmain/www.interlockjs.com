@@ -4,7 +4,11 @@ const generateIndex = bundles => {
   bundles.forEach(bundle => {
     if (bundle.type !== "html") { return; }
 
-    const baseUrl = bundle.dest;
+    const baseUrl = bundle.dest
+      .replace(/\.html$/, "")
+      .replace(/\/index$/, "")
+      .replace("index", "")
+      .replace(/\/$/, "");
 
     const { $ } = bundle.module;
     const pageTitle = $("h1").text();
