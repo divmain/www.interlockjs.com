@@ -1,6 +1,3 @@
-const elasticlunr = require("elasticlunr");
-
-
 const generateIndex = bundles => {
   const index = [];
 
