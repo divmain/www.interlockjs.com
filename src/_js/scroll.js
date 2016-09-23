@@ -4,8 +4,10 @@
   var MIDPOINT = 0.6; // Point at which to begin deceleration, between 0 and 1.
 
   var i = 0;
-  function scrollTo (targetSelector, duration, cb) {
-    return function (ev) {
+  window.scrollTo = function scrollTo (targetSelector, duration, cb) {
+    duration = duration || ANIMATION_DURATION;
+
+    return function () {
       var header = document.querySelector("body > .header");
       var headerHeight = header && header.offsetHeight || 0;
 

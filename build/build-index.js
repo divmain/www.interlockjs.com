@@ -1,41 +1,66 @@
 const elasticlunr = require("elasticlunr");
 
 
+const generateIndex = bundles => {
+  const index = [];
+
+  bundles.forEach(bundle => {
+    if (bundle.type !== "html") { return; }
+
+    const baseUrl = bundle.dest;
+
+    const { $ } = bundle.module;
+    const pageTitle = $("h1").text();
+
+    const sections = $("section[id]");
+
+    sections.each((idx, section) => {
+      section = $(section);
+
+      const sectionId = section.attr().id;
+      const sectionTitle = section.find("h2").text() || section.attr()["data-title-alt"];
+
+      // Without the clone, the text will include JavaScript content from <script> tags.
+      const sectionBody =
+        section
+          .clone()
+          .find("script")
+            .remove()
+          .end()
+          .text()
+          // Remove all extra whitespace.
+          .replace(/\s+/g, " ");
+
+      const keywordsTags = section.find("meta[name=keywords]");
+      const sectionKeywords = Array.prototype.reduce.call(
+        keywordsTags,
+        (memo, tag) => {
+          const content = $(meta).attr().content;
+          return memo.concat(content && content.split(",") || []);
+        },
+        []
+      );
+
+      index.push({
+        baseUrl,
+        hashString: sectionId,
+        title: `${pageTitle}: ${sectionTitle}`,
+        body: sectionBody,
+        tags: sectionKeywords.join(" ")
+      });
+    });
+  });
+
+  return index;
+}
+
+
 module.exports = (opts = {}) => {
   const dest = opts.dest || "site-index.json";
 
   return (override, transform) => {
     transform("generateBundles", bundles => {
-      const index = elasticlunr(function () {
-        this.setRef("url");
-        this.addField("title");
-        this.addField("tags");
-        this.addField("body");
-      });
-
-      bundles.forEach(bundle => {
-        if (bundle.type !== "html") { return; }
-
-        const { $ } = bundle.module;
-        const title = $("head title").text();
-        const body = $("body").text();
-        const metaKwTags = $("meta[name=keywords]");
-        const keywords = Array.prototype.reduce.call(
-          metaKwTags,
-          (memo, meta) => {
-            const kwContent = $(meta).attr().content;
-            return memo.concat(content && content.split(",") || []);
-          },
-          []
-        );
-
-        index.addDoc({
-          url: bundle.dest,
-          tags: keywords.join(" "),
-          title,
-          body
-        });
-      })
+      const index = generateIndex(bundles);
 
       return [
         {
