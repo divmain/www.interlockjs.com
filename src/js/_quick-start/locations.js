@@ -1,7 +1,7 @@
 import { h } from "preact";
 
 
-export const SrcLocation = props => {
+exports.SrcLocation = props => {
   const { srcLocation, setSrcLocation } = props;
 
   return (
@@ -21,7 +21,7 @@ export const SrcLocation = props => {
   );
 };
 
-export const DestLocation = props => {
+exports.DestLocation = props => {
   const { destLocation, setDestLocation } = props;
 
   return (
@@ -42,7 +42,7 @@ export const DestLocation = props => {
 }
 
 
-export const ProjectName = props => {
+exports.ProjectName = props => {
   const { projectName, setProjectName } = props;
 
   return (
@@ -63,7 +63,7 @@ export const ProjectName = props => {
 }
 
 
-export const defaults = {
+exports.defaults = {
   srcLocation: "src/",
   destLocation: "dest/",
   projectName: "my-project"

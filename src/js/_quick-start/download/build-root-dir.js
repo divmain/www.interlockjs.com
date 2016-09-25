@@ -79,6 +79,7 @@ const babelrc = ({
   ]
 }, null, 2);
 
+
 const eslintrc = ({
   esnext,
   jsx
@@ -89,6 +90,8 @@ const eslintrc = ({
     jsx ? "@divmain/eslint-config-defaults/configurations/walmart/es6-react" : null
   ].filter(x => x)
 }, null, 2);
+
+
 export default (tarFile, props) => {
   tarFile.addFile("package.json", packageJson(props));
   if (props.esnext || props.jsx) {

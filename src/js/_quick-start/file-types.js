@@ -1,7 +1,7 @@
 import { h } from "preact";
 
 
-export const FileTypes = props => {
+exports.FileTypes = props => {
   const {
     esnext,
     setEsnext,
@@ -76,7 +76,7 @@ export const FileTypes = props => {
   );
 };
 
-export const defaults = {
+exports.defaults = {
   esnext: true,
   css: true,
   stylus: false,

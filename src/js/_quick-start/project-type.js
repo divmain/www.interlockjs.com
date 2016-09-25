@@ -1,7 +1,7 @@
 import { h } from "preact";
 
 
-export const ProjectType = props => {
+exports.ProjectType = props => {
   const {
     nodeProject,
     browserProject,
@@ -36,7 +36,7 @@ export const ProjectType = props => {
   );
 };
 
-export const defaults = {
+exports.defaults = {
   browserProject: true,
   nodeProject: false
 }

@@ -1,7 +1,7 @@
 import { h } from "preact";
 
 
-export const AddlFeatures = props => {
+exports.AddlFeatures = props => {
   const {
     minification,
     setMinification,
@@ -66,7 +66,7 @@ export const AddlFeatures = props => {
   );
 };
 
-export const defaults = {
+exports.defaults = {
   minification: true,
   linting: true,
   jsx: false,
