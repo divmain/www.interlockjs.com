@@ -1,4 +1,7 @@
 import { h, Component } from 'preact';
+import maxBy from "lodash/maxBy";
+
+const CONTEXT_SIZE = 40;
 
 
 const getLinkBehavior = (baseUrl, hashString, setExpanded) => {
@@ -22,12 +25,34 @@ const getLinkBehavior = (baseUrl, hashString, setExpanded) => {
   return { href, onClick };
 };
 
+const getBestIndex = indices => maxBy(indices, index => {
+  const [ start, end ] = index;
+  return end - start;
+});
+
+const getContext = (item, match) => {
+  const { indices, key } = match;
+
+  if (key === "title") { return null; }
+
+  const matchValue = item[key];
+
+  const [ start, end ] = getBestIndex(indices);
+
+  return {
+    before: matchValue.slice(start - CONTEXT_SIZE, start),
+    match: matchValue.slice(start, end + 1),
+    after: matchValue.slice(end + 1, end + CONTEXT_SIZE)
+  };
+};
+
 const SearchResult = props => {
   const { result, location, selected, setExpanded } = props;
   const { item, matches } = result;
-  const { baseUrl, hashString, title, body, tags } = item;
+  const { baseUrl, hashString, title, body } = item;
 
   const { href, onClick } = getLinkBehavior(baseUrl, hashString, setExpanded);
+  const context = getContext(item, matches[0]);
 
   return (
     <a
@@ -36,82 +61,19 @@ const SearchResult = props => {
       onClick={onClick}
     >
       <span className="search-result-title">{title}</span>
-      <span className="search-result-context">{tags}</span>
+      { context ? (
+        <span className="search-result-context">
+          <span className="before">{context.before}</span>
+          <span className="match">{context.match}</span>
+          <span className="after">{context.after}</span>
+        </span>
+        ) :
+        null
+      }
+      
     </a>
   );
 };
-
-// Result data-structure:
-//
-// {
-//   "item": {
-//     "baseUrl": "docs/extensibility.html",
-//     "hashString": "learn-more",
-//     "title": "Extensibility: Learn More",
-//     "body": "Learn MoreTODO reach out in Gitter channel look over the cookbook examples read through the offical plugins ",
-//     "tags": []
-//   },
-//   "matches": [
-//     {
-//       "indices": [
-//         [
-//           2,
-//           2
-//         ],
-//         [
-//           5,
-//           5
-//         ],
-//         [
-//           11,
-//           11
-//         ]
-//       ],
-//       "key": "title"
-//     },
-//     {
-//       "indices": [
-//         [
-//           10,
-//           10
-//         ],
-//         [
-//           23,
-//           23
-//         ],
-//         [
-//           30,
-//           31
-//         ],
-//         [
-//           53,
-//           53
-//         ],
-//         [
-//           73,
-//           73
-//         ],
-//         [
-//           80,
-//           80
-//         ],
-//         [
-//           88,
-//           88
-//         ],
-//         [
-//           93,
-//           94
-//         ],
-//         [
-//           106,
-//           106
-//         ]
-//       ],
-//       "key": "body"
-//     }
-//   ]
-// }
 
 const SearchResults = props => {
   const { results, selectedIdx, setExpanded } = props;
@@ -249,7 +211,7 @@ export default class SearchWidget extends Component {
   }
 
   render () {
-    const { expanded, results } = this.state;
+    const { expanded, results, selectedIdx } = this.state;
 
     return (
       <div className="search-widget">
@@ -259,8 +221,8 @@ export default class SearchWidget extends Component {
         />
         { expanded ?
           <SearchBar
-            selectedIdx={this.state.selectedIdx}
-            lastResultIdx={this.state.results.length - 1}
+            selectedIdx={selectedIdx}
+            lastResultIdx={results.length - 1}
             setSelectedIdx={val => this.setState({ selectedIdx: val })}
             setExpanded={val => this.setState({ expanded: val })}
             results={results}

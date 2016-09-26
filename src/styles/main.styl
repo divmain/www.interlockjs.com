@@ -617,10 +617,33 @@ body > section
   border-top-width: 1px
   border-top-color: rgba(200, 200, 200, 0.8)
 
-.search-result:hover,
-.search-result.selected
-  font-weight: 600
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.7)
+.search-result
+  display: flex
+  flex-direction: column
+
+  &:hover,
+  &.selected
+    font-weight: 600
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.7)
+
+.search-result-title
+  letter-spacing: 3px
+
+.search-result-context
+  font-weight: 300
+  text-transform: none
+  font-size: 0.8em
+  font-style: italic
+
+  max-width: 420px
+  overflow: hidden
+
+  &:before
+    content: ""
+    margin-left: -14%
+
+  .match
+    font-weight: 600
 
 .quick-start
   padding: 20px 32px

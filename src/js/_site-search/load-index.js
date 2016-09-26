@@ -5,14 +5,14 @@ const options = {
   include: ["matches"],
   shouldSort: true,
   tokenize: true,
-  threshold: 0.4,
+  threshold: 0.3,
   location: 0,
   distance: 7200,
   maxPatternLength: 32,
   keys: [
-    "title",
-    "tags",
-    "body"
+    { name: "title", weight: 0.8 },
+    { name: "tags", weight: 0.7 },
+    { name: "body", weight: 0.5 }
   ]
 };
 
