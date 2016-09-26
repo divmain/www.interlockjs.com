@@ -7,7 +7,7 @@ const options = {
   tokenize: true,
   threshold: 0.3,
   location: 0,
-  distance: 7200,
+  distance: 20000,
   maxPatternLength: 32,
   keys: [
     { name: "title", weight: 0.8 },
