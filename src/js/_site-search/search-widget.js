@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import maxBy from "lodash/maxBy";
 
-const CONTEXT_SIZE = 40;
+const CONTEXT_SIZE = 80;
 
 
 const getLinkBehavior = (baseUrl, hashString, setExpanded) => {
@@ -30,8 +30,8 @@ const getBestIndex = indices => maxBy(indices, index => {
   return end - start;
 });
 
-const getContext = (item, match) => {
-  const { indices, key } = match;
+const getContext = (item, matchEntry) => {
+  const { indices, key } = matchEntry;
 
   if (key === "title") { return null; }
 
@@ -39,10 +39,22 @@ const getContext = (item, match) => {
 
   const [ start, end ] = getBestIndex(indices);
 
+  // Constrain search context to specific character length.
+  const match = matchValue.slice(start, end + 1);
+  let before = matchValue.slice(start - CONTEXT_SIZE, start);
+  let after = matchValue.slice(end + 1, end + CONTEXT_SIZE);
+
+  const unabridgedLength = match.length + before.length + after.length;
+  if (unabridgedLength > CONTEXT_SIZE) {
+    const charPadding = Math.floor((CONTEXT_SIZE - match.length) / 2);
+    before = before.slice(before.length - charPadding);
+    after = after.slice(0, charPadding);
+  }
+
   return {
-    before: matchValue.slice(start - CONTEXT_SIZE, start),
     match: matchValue.slice(start, end + 1),
-    after: matchValue.slice(end + 1, end + CONTEXT_SIZE)
+    before,
+    after
   };
 };
 
@@ -148,11 +160,18 @@ class SearchBar extends Component {
       results,
       setSearchText,
       selectedIdx,
-      setExpanded
+      setExpanded,
+      onClose
     } = this.props;
 
+    const onClick = ev => {
+      if (ev.target.classList.contains("search-popup")) {
+        onClose();
+      }
+    };
+
     return (
-      <div className="search-popup">
+      <div className="search-popup" onClick={onClick}>
         <input
           type="text"
           className={`search-bar${results.length ? " has-results" : ""}`}
@@ -227,6 +246,7 @@ export default class SearchWidget extends Component {
             setExpanded={val => this.setState({ expanded: val })}
             results={results}
             setSearchText={this.setSearchText.bind(this)}
+            onClose={() => this.setState({ expanded: false })}
           /> :
           null }
       </div>

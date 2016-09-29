@@ -103,7 +103,18 @@ h1
   font-family: "Alegreya Sans SC"
   font-size: 64px
   letter-spacing: 4px
-  
+
+.repo-links
+  display: block
+  text-align: right
+  font-size: 0.8em
+  text-transform: none
+  font-style: italic
+  padding-right: 8px
+  margin-top: -20px
+  position: relative
+  top: -36px
+
 h2
   font-size: 36px
 
@@ -122,8 +133,9 @@ strong
   font-weight: 400
 
 pre, code
-  font-family: "Fira Mono", monospace
+  font-family: "Source Code Pro", monospace
   font-feature-settings: "liga" 0
+  font-weight: 400
   font-size: 0.9em
   line-height: initial
 
@@ -573,23 +585,21 @@ body > section
   
   max-width: 100%
 
-
-.search-widget
-  position: absolute
-  right: 0
-  text-align: right
-  padding-right: 8px
-  top: 4px
-
 .search-button
   font-size: 26px
 
 .search-popup
-  position: absolute
-  top: 44px
-  min-width: 196px
-  right: 7px
-  padding: 10px
+  display: flex
+  flex-direction: column
+
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+
+  padding: 12vh 20vw
+
   background-color: rgba(0, 20, 40, 0.9)
   box-shadow: inset 0px 12px 12px -8px rgba(80, 80, 80, 0.4);
 
@@ -598,12 +608,10 @@ body > section
   border: none
   background-color: transparent
   color: white
-  font-size: 16px
-  text-align: right
-  width: 100%
+  font-size: 2vw
 
   &.has-results
-    padding-bottom: 8px
+    padding-bottom: 1vw
 
 .search-bar:focus
   outline: none
@@ -612,7 +620,7 @@ body > section
   display: flex
   flex-direction: column
 
-  padding-top: 8px
+  padding-top: 1vw
   border-top-style: dotted
   border-top-width: 1px
   border-top-color: rgba(200, 200, 200, 0.8)
@@ -627,20 +635,17 @@ body > section
     text-shadow: 0 0 8px rgba(255, 255, 255, 0.7)
 
 .search-result-title
+  font-size: 1.2vw
   letter-spacing: 3px
 
 .search-result-context
-  font-weight: 300
+  font-family: "Source Code Pro", monospace
+  font-weight: 200
   text-transform: none
-  font-size: 0.8em
+  letter-spacing: 1px
+  font-size: 0.9vw
   font-style: italic
-
-  max-width: 420px
   overflow: hidden
-
-  &:before
-    content: ""
-    margin-left: -14%
 
   .match
     font-weight: 600
