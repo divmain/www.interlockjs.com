@@ -206,10 +206,21 @@ export default class SearchWidget extends Component {
   componentDidMount () {
     // Register global key-press listener for ESC.
     document.body.addEventListener("keydown", this.onEscapeKeyDown);
+
+    if (this.props.listenTo) {
+      this.globalListener = this.props.listenTo.addEventListener("click", () => {
+        this.setState({ expanded: true });
+      });
+    }
   }
 
   componentWillUnmount () {
     document.body.removeEventListener("keydown", this.onEscapeKeyDown);
+
+    if (this.props.listenTo && this.globalListener) {
+      this.props.listenTo.removeEventListener(this.globalListener);
+      this.globalListener = null;
+    }
   }
 
   onEscapeKeyDown (ev) {
