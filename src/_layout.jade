@@ -3,9 +3,9 @@ html(lang='en')
 
   head
     link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" type="text/css")
-    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700" type = "text/css")
-    link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:700" type = "text/css")
-    link(href="https://fonts.googleapis.com/css?family=Source+Code+Pro:200,400" rel="stylesheet" type="text/css")
+    link(rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,400,700" type = "text/css")
+    link(rel="stylesheet" href="//fonts.googleapis.com/css?family=Alegreya+Sans+SC:700" type = "text/css")
+    link(href="//fonts.googleapis.com/css?family=Source+Code+Pro:200,400" rel="stylesheet" type="text/css")
     link(rel="stylesheet" href="/styles/main.css" type="text/css")
     link(rel="stylesheet" href="/styles/syntax-highlighting.css" type="text/css")
     title InterlockJS
@@ -28,7 +28,7 @@ html(lang='en')
   body
     .header
       a(href=`/${ nsPath === 'index.jade' ? '#quick-start' : '' }`) #{ nsPath == 'index.jade' ? 'Quick Start' : 'Home' }
-      a(href="/docs") Documentation
+      a(href="/docs/") Documentation
       a(href="https://gitter.im/interlockjs/interlock") Chat
       a(href="https://github.com/interlockjs/interlock/issues") Issues
       a(href="https://github.com/interlockjs/interlock").ion-social-github &nbsp;GitHub
@@ -41,5 +41,5 @@ html(lang='en')
     footer
       p © Dale Bustad. All Rights Reserved.
 
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-javascript.min.js")
+    script(src="//cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js")
+    script(src="//cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/components/prism-javascript.min.js")

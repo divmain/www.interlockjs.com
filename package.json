@@ -36,6 +36,7 @@
     "fuse.js": "^2.5.0",
     "glob": "^7.0.6",
     "interlock": "^0.10.5",
+    "interlock-appcache": "^1.0.0",
     "interlock-babili": "^0.2.1",
     "interlock-css": "^0.1.0",
     "interlock-html": "^0.1.1",
