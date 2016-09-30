@@ -1,0 +1,66 @@
+extends ../../_layout.jade
+
+block content
+  section.glass.heading
+    block title
+      h1 PLUGIN-NAME
+
+  section#description
+    .content
+      block description
+        :markdown-it
+          ## Description
+
+          TODO
+
+          **Note:**  Issues with this plugin should be reported on the Interlock plugin [issue tracker](https://github.com/interlockjs/plugins/issues).
+
+  section.glass
+
+  section#usage
+    .content
+      block usage
+        :markdown-it
+          ## Usage
+
+          TODO
+
+  section.glass
+
+  section#installation
+    .content
+      block installation
+        :markdown-it
+          ## Installation
+
+          TODO
+
+  section.glass
+
+  section#options
+    .content
+      block options
+        :markdown-it
+          ## Options
+
+          TODO
+
+  section.glass
+
+  section#example
+    .content
+      block example
+        :markdown-it
+          ## Example
+
+          TODO
+
+  section.glass
+
+  section#troubleshooting
+    block troubleshooting
+      .content
+        :markdown-it
+          ## Troubleshooting
+
+          TODO
