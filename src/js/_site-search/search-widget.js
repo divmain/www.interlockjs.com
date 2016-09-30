@@ -1,5 +1,7 @@
 import { h, Component } from 'preact';
 import maxBy from "lodash/maxBy";
+import { onResize } from "./viewport";
+
 
 const CONTEXT_SIZE = 80;
 
@@ -59,18 +61,17 @@ const getContext = (item, matchEntry) => {
 };
 
 const SearchResult = props => {
-  const { result, location, selected, setExpanded } = props;
-  const { item, matches } = result;
+  const { item, location, selected, setExpanded, context } = props;
   const { baseUrl, hashString, title, body } = item;
 
   const { href, onClick } = getLinkBehavior(baseUrl, hashString, setExpanded);
-  const context = getContext(item, matches[0]);
 
   return (
     <a
       className={`search-result${selected ? " selected" : ""}`}
       href={`${href}`}
       onClick={onClick}
+      data-context={!!context}
     >
       <span className="search-result-title">{title}</span>
       { context ? (
@@ -82,25 +83,50 @@ const SearchResult = props => {
         ) :
         null
       }
-      
     </a>
   );
 };
 
 const SearchResults = props => {
-  const { results, selectedIdx, setExpanded } = props;
+  const { results, selectedIdx, setExpanded, viewport } = props;
   if (!results.length) { return null; }
+
+  // The available vertical space to display results is the viewport
+  // height minus ~191px.  Calculate the max number of results that
+  // could be displayed in the provided space, given that results with
+  // context take up 54px and those without take 37px.
+  const availableSpace = viewport.height - 210;
+
+  let tooLong = false;
+  let takenSpace = 0;
+  const resultEls = results.map((result, idx) => {
+    if (tooLong) { return null; }
+
+    const { item, matches } = result;
+    const context = getContext(item, matches[0]);
+
+    takenSpace += context ? 54 : 37;
+    if (takenSpace > availableSpace) {
+      tooLong = true;
+      return (
+        <div className="ion-more search-results-more" />
+      );
+    }
+
+    return (
+      <SearchResult
+        item={item}
+        context={context}
+        location={document.location}
+        selected={idx === selectedIdx}
+        setExpanded={setExpanded}
+      />
+    );
+  });
 
   return (
     <div className="search-results">
-      {results.map((result, idx) =>
-        <SearchResult
-          result={result}
-          location={document.location}
-          selected={idx === selectedIdx}
-          setExpanded={setExpanded}
-        />
-      )}
+      {resultEls}
     </div>
   );
 };
@@ -161,7 +187,8 @@ class SearchBar extends Component {
       setSearchText,
       selectedIdx,
       setExpanded,
-      onClose
+      onClose,
+      viewport
     } = this.props;
 
     const onClick = ev => {
@@ -184,6 +211,7 @@ class SearchBar extends Component {
             results={results}
             selectedIdx={selectedIdx}
             setExpanded={setExpanded}
+            viewport={viewport}
           /> :
           null }
       </div>
@@ -198,7 +226,8 @@ export default class SearchWidget extends Component {
     this.state = {
       expanded: false,
       selectedIdx: 0,
-      results: []
+      results: [],
+      viewport: null
     };
     this.onEscapeKeyDown = this.onEscapeKeyDown.bind(this);
   }
@@ -206,6 +235,9 @@ export default class SearchWidget extends Component {
   componentDidMount () {
     // Register global key-press listener for ESC.
     document.body.addEventListener("keydown", this.onEscapeKeyDown);
+    this.cancelResizeListener = onResize(viewport => {
+      this.setState({ viewport });
+    });
 
     if (this.props.listenTo) {
       this.globalListener = this.props.listenTo.addEventListener("click", () => {
@@ -216,6 +248,7 @@ export default class SearchWidget extends Component {
 
   componentWillUnmount () {
     document.body.removeEventListener("keydown", this.onEscapeKeyDown);
+    this.cancelResizeListener();
 
     if (this.props.listenTo && this.globalListener) {
       this.props.listenTo.removeEventListener(this.globalListener);
@@ -241,7 +274,7 @@ export default class SearchWidget extends Component {
   }
 
   render () {
-    const { expanded, results, selectedIdx } = this.state;
+    const { expanded, results, selectedIdx, viewport } = this.state;
 
     return (
       <div className="search-widget">
@@ -258,6 +291,7 @@ export default class SearchWidget extends Component {
             results={results}
             setSearchText={this.setSearchText.bind(this)}
             onClose={() => this.setState({ expanded: false })}
+            viewport={viewport}
           /> :
           null }
       </div>
