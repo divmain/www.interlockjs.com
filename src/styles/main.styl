@@ -302,7 +302,11 @@ body > section
   &.glass 
     background-color: transparent
     color: neutral
-    
+
+  // Adjacent sections should be separated by some "glass".
+  &:not(.glass) + section:not(.glass)
+    margin-top: 32px;
+  
   &.heading
     padding-bottom: 0
 

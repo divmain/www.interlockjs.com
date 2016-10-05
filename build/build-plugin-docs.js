@@ -30,10 +30,6 @@ const formatMarkdown = markdown => {
   return { title, sections };
 };
 
-const sectionSplitter = `
-  section.glass
-`;
-
 const getSectionId = section => {
   const match = section.match(/^## +([^\n]+)/);
   if (!match) { return "unknown"; }
@@ -59,7 +55,7 @@ block content
     .repo-links
       a(class="repo-link" href="${url}") repo
 
-${sections.map(renderSection).join(sectionSplitter)}
+${sections.map(renderSection).join("\n")}
 `;
 
 
