@@ -5,6 +5,7 @@ const htmlPrerender = require("interlock-html-prerender");
 const appcache = require("interlock-appcache");
 
 const buildIndex = require("./build-index");
+const buildPluginDocs = require("./build-plugin-docs");
 
 
 const srcRoot = path.resolve(__dirname, "../src");
@@ -42,6 +43,7 @@ module.exports = {
       ],
       strip: /(\bindex)?(\.html?)$/
     }),
+    buildPluginDocs(),
     ...plugins
   ]
 };
