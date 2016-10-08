@@ -1,9 +1,6 @@
 const { hierarchy } = require("d3-hierarchy");
 
 
-const JSON_PATH = "http://rawgit.com/interlockjs/interlock/master/docs/compilation.json";
-
-
 function orderChildren (datum) {
   if (datum.children) {
     datum.children = datum.children.map((child, idx) => {
