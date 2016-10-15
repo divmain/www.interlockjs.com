@@ -1,4 +1,6 @@
-@require("./ionicons.css")
+@require("./_ionicons")
+@require("./_dejavu-sans-mono")
+@require("./_syntax-highlighting")
 
 /////////////////////////
 ///      COLORS       ///
@@ -62,9 +64,9 @@ for_breakpoint(breakpoints)
   box-sizing: border-box
 
 body
-  font-family: Lato
-  font-weight: 300
-  font-size: 22px
+  font-family: "Dejavu Sans"
+  font-weight: 200
+  font-size: 20px
 
   display: flex
   align-items: center
@@ -98,6 +100,7 @@ body
 
 h1, h2
   font-weight: 700
+  line-height: 1.1
 
 h1
   font-family: "Alegreya Sans SC"
@@ -133,9 +136,8 @@ strong
   font-weight: 400
 
 pre, code
-  font-family: "Source Code Pro", monospace
+  font-family: "Dejavu Sans Mono", "Menlo", monospace
   font-feature-settings: "liga" 0
-  font-weight: 400
   font-size: 0.9em
   line-height: initial
 
@@ -317,7 +319,7 @@ body > section
   +for_breakpoint(desktop wide)
     width: 800px
 
-  font-size: 20px
+  font-size: 18px
   line-height: 28px
 
 .split
@@ -649,7 +651,7 @@ a.search-result
   letter-spacing: 3px
 
 .search-result-context
-  font-family: "Source Code Pro", monospace
+  font-family: "Dejavu Sans"
   font-weight: 200
   text-transform: none
   letter-spacing: 1px
