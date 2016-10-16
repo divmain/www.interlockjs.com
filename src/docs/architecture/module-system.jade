@@ -1,0 +1,343 @@
+extends ../../_layout.jade
+
+block content
+
+  section.glass.heading
+    h1 Module System
+
+  section#overview
+    .content
+      :markdown-it
+        ## Overview
+
+        Interlock's module system is fundamental to Interlock's build and runtime systems, and is
+        important in the following ways:
+
+        - It allows bundles from separate builds to interact.
+        - It ensures that each module is included in your build only once.
+        - And it allows for universal guarantees surrounding uniqueness of a module and bundle's
+          behavior within the context of any build.
+
+        To understand this better, let's look at the two data-structures upon which the module system
+        is based.
+
+
+  section#inspiration
+    .content
+      :markdown-it
+        ## Inspiration
+
+        ### Merkle tree
+
+        A [Merkle tree](https://en.wikipedia.org/wiki/Merkle_tree), also known as a hash-tree, is a
+        tree structure where every non-leaf node is designated a hash.  These hashes are generated
+        from the hashes of its child nodes, recursively, all the way down to the leaf nodes.  The
+        general idea is depicted below.
+
+      pre.diagram.
+        ┌──────────────────────────────────────────┐
+        │         hash(hash(a) + hash(b))          │
+        │                    +                     │
+        │         hash(hash(c) + hash(d))          │
+        └──────────────────────────────────────────┘
+                              │                     
+                  ┌───────────┴──────────┐          
+                  ▼                      ▼          
+        ┌───────────────────┐  ┌───────────────────┐
+        │ hash(a) + hash(b) │  │ hash(c) + hash(d) │
+        └───────────────────┘  └───────────────────┘
+                  │                      │          
+             ┌────┴────┐            ┌────┴────┐     
+             ▼         ▼            ▼         ▼     
+          ┌─────┐   ┌─────┐      ┌─────┐   ┌─────┐  
+          │  A  │   │  B  │      │  C  │   │  D  │  
+          └─────┘   └─────┘      └─────┘   └─────┘  
+
+      :markdown-it
+        You may have seen this data-structure before: it is the foundational data-structure behind
+        both Git and Bitcoin.  In Bitcoin, the leaves are transactions from a transaction block, and
+        the recursive hashes allow someone who has no direct access to a particular transaction to
+        trust its authenticity.
+
+        Git also relies heavily on hashing the hashes of child nodes.  However, Merkle trees don't
+        map perfectly to Git's use-case.  To understand the variation that Git introduces, let's look
+        at another data-structure.
+
+        ### Directed Acyclic Graph
+
+        A [directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph), or DAG, is
+        a graph of nodes fitting within a handful of constraints.
+
+        First, each node is connected to one _or more_ other nodes through vertices - this
+        is an important difference to the tree structure described above, where every node had only
+        one parent.  Additionally, each vertex has a direction, meaning there exists one or more
+        child-parent relationships for every node.  And finally, the graph is finite, meaning that
+        there exist a set number of nodes and vertices.
+
+      pre.diagram.
+        ┌───┐      ┌───┐ ┌───┐      ┌───┐
+        │ A │─────▶│ B │►│ C │─────▶│ D │
+        └───┘      └───┘ └───┘      └───┘
+          ╲                           ▲  
+           ╲──╲ ┌───┐ ┌───┐ ┌───┐ ╱──╱   
+               ▶│ X │►│ Y │►│ Z │╱       
+                └───┘ └───┘ └───┘        
+
+      :markdown-it
+        #### Git's DAG
+
+        If you've used Git for any amount of time, the above graph might be familiar to you.
+
+        From commit `A`, you create a new branch in which three new commits are made, `X`,
+        `Y`, and `Z`.  Meanwhile, in the main branch, `B` and `C` are commited.  Finally,
+        the two branches are merged together in `D`.
+
+        Along the way, each commit is represented by a hash - this is unique to Git, and not true
+        of DAGs in general.  Each commit-hash is generated from:
+
+        - the hashes of its parent commit(s);
+        - the content of the diff;
+        - author meta-data; and
+        - a timestamp.
+
+        This data-structure actually resembles a Merkle tree in a number of ways.
+
+        - Both are unidirectional.
+        - Both utilize recursive hashes on a tree-like structure.
+
+        But there are a couple of important differences:
+
+        - A Git commit can have two parents, while a node in a Merkle tree can only have one.
+        - Nodes (commits) in a Git repo have content, while only leaf-nodes in a Merkle tree
+          have content.
+
+        Git commit hashes are in no way arbitrary.  They are generated deterministically, so that
+        if the same author made the same changes at the same time on top of the same commit in
+        two different locations, the commit hashes would be identical.  And for Git's use-case,
+        there is no reason why they _shouldn't_ be treated as identical.  The inverse is also true -
+        commits with different meta-data, data, and history will have different hashes.  This is
+        ultimately what puts the "distributed" in "distributed version control".
+
+        Interlock's module system functions very similarly to a Git repo - and you can think of both
+        as a Merklized DAG.  More on that below.
+
+  section#dependency-graph
+    .content
+      :markdown-it
+        ## Dependency Graph
+
+        This brings us to Interlock, and the applications you're writing.  To tie this all together,
+        consider the dependency graph for a typical application.
+
+      pre.diagram.
+                  ┌────────────────┐   
+                  │ entry-point.js │   
+                  └────────────────┘   
+                           │           
+                      ┌────┴────┐      
+                      ▼         ▼      
+                  ┌──────┐  ┌──────┐   
+                  │ a.js │  │ b.js │   
+                  └──────┘  └──────┘   
+                      │         │      
+            ┌─────────┤         │      
+            ▼         ▼         │      
+        ┌──────┐  ┌──────┐      │      
+        │ c.js │  │ d.js │  ┌───┘      
+        └──────┘  └──────┘  │          
+                      │     │          
+                      └─────┤          
+                            ▼          
+                 ┌────────────────────┐
+                 │n_m/lodash/index.js │
+                 └────────────────────┘
+
+      :markdown-it
+        There is an `entry-point.js` that `require`s two dependencies, `a.js` and `b.js`.  A has a couple
+        of dependencies itself, ultimately depending on Lodash, and B depends only on Lodash.
+
+        You might notice that this graph is constructed very similarly to the DAG we saw above.
+
+        - It is directed: each module has one or more modules that depend on it (except for entry points).
+        - It is acyclic: `d.js` will not depend on `entry-point.js`, creating a cycle in the graph.
+
+        Because of this, we can think about and treat JavaScript applications as a Merklized DAG, where
+        each node is a module, and each module has a uniquely identifying hash.  Indeed, this is even true
+        of all applications collectively (see [Determinism and Universality](#determinism-and-universality)
+        below).
+
+  section#module-hashes
+    .content
+      :markdown-it
+        ## Module Hashes
+
+        ### What goes into a module hash?
+
+        Like most parts of Interlock, this is overridable (see [Extensibility](/docs/extensibility)
+        for more on this).  But, by default, there is a clearly defined set of data and meta-data that
+        goes into generating a module hash.
+
+        - The source file content.
+        - The module's namespace, taken from the `name` property of that module's `package.json`.  For
+          example:
+          + A Lodash module's namespace would be `lodash`, taken from its `package.json`.
+          + The namespace from one of your modules might be `my-app`, if that's what you placed in your
+            `package.json`.
+        - The module's namespace path, which is the module's path relative to the project root.  For
+          example:
+          + A Lodash module's `nsPath` might be `fp/toArray.js`.
+          + One of your module's `nsPath` might be `src/path/to/my-module.js`.
+        - The (sorted) hashes of the module's dependencies.
+
+      h3#determinism-and-universality Determinism and Universality
+      :markdown-it
+
+        Similar to Git, Interlock's module hashes are deterministic, meaning that two builds on two
+        different machines will generate the same hash for a given module, so long as all the content
+        and metadata for that module, as well as for its dependencies, are equal.
+
+        Because of this, we can extend our mental model for a Merklized dependency graph a little
+        further to encompass all possible modules that will ever be compiled, in any combination.  To
+        understand this, consider the following two applications.
+
+      pre.diagram.
+                                │                        
+           ┌─────────────┐             ┌─────────────┐    
+           │ bundle-a.js │      │      │ bundle-b.js │    
+           └─────────────┘             └─────────────┘    
+                  │             │             │          
+            ┌─────┴─────┐               ┌─────┴─────┐    
+            ▼           ▼       │       ▼           ▼    
+        ┌───────┐   ┌───────┐       ┌───────┐   ┌───────┐
+        │ aa.js │   │ ab.js │   │   │ ba.js │   │ bb.js │
+        └───────┘   └───────┘       └───────┘   └───────┘
+                        ┃       │       ┃                
+                                                         
+                        ┗ ━ ━ ━ ┳ ━ ━ ━ ┛                
+                                                         
+                                ▼                        
+                          ┌───────────┐                  
+                          │ lodash.js │                  
+                          └───────────┘                  
+
+      :markdown-it
+        The above scenario shows us two applications, A and B.  The application entry point of each has
+        a couple of dependencies, and each ultimately depends on Lodash.  Let's consider the following
+        scenarios for how the bundles might be compiled and interact with Lodash at run-time.
+
+
+        #### Scenario 1: Same Version
+
+        In this scenario, each bundle depends on the same version of Lodash.  Because of this,
+        each Lodash module's meta-data will be identical:
+
+        - The namespace will be the same: `lodash`.
+        - The namespace paths will be the same: e.g. `fp/toArray.js`
+        - The file content will be the same: the same file was pulled down from NPM upon install.
+        - The dependency hashes will be the same.
+          + Lodash has no external dependencies - only depending upon itself.
+          + All of the first three bullet-points will be true for all Lodash modules, so any internal
+            dependencies will have identical hashes anywhere at any time.
+
+        During compilation, each bundle's reference to Lodash (its hash) will be identical.  And
+        because all Interlock bundles share the same run-time when loaded on the same page (see [Runtime
+        Architecture](/docs/architecture/runtime)), these references will resolve to the same
+        `module.exports` in both places.
+
+        This results in automatic de-duping for identical versions of Lodash, or any other library, so
+        long as they share the same version.
+
+
+        #### Scenario 2: Slightly Different Versions
+
+        In this scenario, application A depends on `lodash@4.16.4` while application B depends on
+        `lodash@4.16.2`.  Let's consider how the hash's constituent data and meta-data match up:
+
+        - The namespace will be the same: `lodash`.
+        - The namespace paths will probably be the same.
+          + Lodash follows [Semantic Versioning](http://semver.org/)
+          + The version difference here indicates a patch-level change with no external API changes.
+        - The file content will be the same for _some_ files.  The ones that have been patched will have
+          updated content.
+        - The dependency hashes will be the same for _some_ files.
+          + For leaves of Lodash's dependency sub-graph that have not changed, there are no dependencies.
+          + For Lodash modules that depend only on unchanged leaves, the dependency hashes will not have changed.
+          + For Lodash modules that rely on modified files, the dependency hashes will have changed.
+
+        What this ultimately boils down to is this:
+
+        - The main entry point for Lodash will have a different hash.
+        - Some modules will have a different hash.
+        - Some modules will have identical hashes.
+
+        Fortunately, this is the behavior that we want.  For modules that function the same, there is no
+        need to include two copies in the bundle.  For modules whose behavior has potentially changed,
+        we will want to include both and non de-duplicate.
+
+
+        #### Scenario 3: Very Different Versions
+
+        In this scenario, application A depends on `lodash@4.16.4` while application B depends on
+        `lodash@3.9.3`.  Let's take a look at how things match-up here:
+
+        - The namespace will be the same: `lodash`.
+        - The namespace paths may be the same for some modules.
+          + The version difference indicates a breaking change.
+          + Files may have been moved or renamed.
+          + Some files may exist in one version of Lodash and not in the other.
+          + But there may still be _some_ overlap.
+        - The file content will probably have changed for most files, for the reasons just indicated above.
+        - The dependency hahes will probably be different for most files.
+
+        Again, this is the behavior that we want.  If a handful of Lodash modules remained in the same place
+        and have the same functionality, they'll be de-duped.  But for the most part, the data and meta-data
+        won't match up and most of both copies of Lodash will be included in the bundles.
+
+
+        #### Behavior Across Builds
+
+        So far, we've considered two applications that were compiled as part of the same build process.
+        But what about two applications that were compiled separately?
+
+        It may be obvious that no de-duping can occur here.  Without some special context, there is no way
+        for one application to know that it'll be running at the same time as another.  So full copies
+        of Lodash would be included in each compiled bundle.
+
+        However, we've also established that these modules hashes are generated deterministically, and
+        independent of any particular build at any particular time.  This is where the universality of
+        the module hashes come into play.
+
+        Because both copies of Lodash share the same module hashes, there will only ever be one copy
+        of Lodash "running" on a page at a time, if they're the same version.  They will share behavior and
+        any state or config that they might encapsulate.  This introduces benefits for libraries that
+        may be expensive to spin up initially.
+
+        It is also worth noting that it is possible to build shared libraries into a bundle once, and then
+        re-use that bundle in multiple applications.  This can be beneficial to build times, browser cache
+        and webpage performance, and the total size of your shipped applications.
+
+        To learn more about this, see the [interlock-share](/docs/plugins/share) documentation.
+
+
+  section#caveats
+    .content
+      :markdown-it
+        ## Caveats and Warnings
+
+        ### Unwanted state sharing
+
+        You may experience undesired behavior in the following scenario:
+
+        - Two applications rely on different versions of the same package.
+        - This dependency stores state in one of its submodules.
+        - This submodule is part of a dependency sub-graph that is identical across these two versions.
+        - This submodule also stores state that is manipulated in some way by another module outside
+          of the identical sub-graph.
+        - The state is manipulated or interacted with in ways that are incompatible across these two
+          versions.
+
+        This has not yet come up as a real problem so far, but it is theoretically possible.
+
+        Should this occur to you, you could modify the behavior of the `hashModule` compilation step
+        to incorporate package version information or something of the like.  This would result in
+        the two modules having different hashes where they normally would have the same one.

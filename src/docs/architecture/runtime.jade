@@ -1,0 +1,31 @@
+extends ../../_layout.jade
+
+block content
+
+  section.glass.heading
+    h1 Runtime Architecture
+
+  section
+    .content
+      :markdown-it
+        ## Overview
+
+        Interlock's browser runtime was written with the following constraints in mind:
+
+        - It must 
+
+      pre.diagram.
+        ┌────────────┐                        
+        │   stuff    │───┐    ┌──────────────┐
+        └────────────┘   └───▶│    things    │
+                              └──────────────┘
+
+
+//- Runtime
+//- Shared runtime for all interlock apps running in the same page
+//- Constraints, i.e. what it needed to accomplish 
+//- Show states of modules through the lifetime of the application 
+//- Talk about module providers
+//- What to do if you don't want the runtime bundled with each entry bundle
+//- Characteristics of the runtime when  using the h2 plugin
+//- Link to the module system documentation, to learn more about sharing modules across builds a database bundles and how/why it works
