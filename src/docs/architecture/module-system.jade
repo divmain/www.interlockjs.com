@@ -18,7 +18,7 @@ block content
         - And it allows for universal guarantees surrounding uniqueness of a module and bundle's
           behavior within the context of any build.
 
-        To understand this better, let's look at the two data-structures upon which the module system
+        To understand this better, let's look at the two data structures upon which the module system
         is based.
 
 
@@ -54,14 +54,14 @@ block content
           └─────┘   └─────┘      └─────┘   └─────┘  
 
       :markdown-it
-        You may have seen this data-structure before: it is the foundational data-structure behind
+        You may have seen this data structure before: it is the foundational data structure behind
         both Git and Bitcoin.  In Bitcoin, the leaves are transactions from a transaction block, and
         the recursive hashes allow someone who has no direct access to a particular transaction to
         trust its authenticity.
 
         Git also relies heavily on hashing the hashes of child nodes.  However, Merkle trees don't
         map perfectly to Git's use-case.  To understand the variation that Git introduces, let's look
-        at another data-structure.
+        at another data structure.
 
         ### Directed Acyclic Graph
 
@@ -100,7 +100,7 @@ block content
         - author meta-data; and
         - a timestamp.
 
-        This data-structure actually resembles a Merkle tree in a number of ways.
+        This data structure actually resembles a Merkle tree in a number of ways.
 
         - Both are unidirectional.
         - Both utilize recursive hashes on a tree-like structure.
@@ -336,7 +336,7 @@ block content
         - The state is manipulated or interacted with in ways that are incompatible across these two
           versions.
 
-        This has not yet come up as a real problem so far, but it is theoretically possible.
+        This has not come up as a real problem, but it is theoretically possible.
 
         Should this occur to you, you could modify the behavior of the `hashModule` compilation step
         to incorporate package version information or something of the like.  This would result in
