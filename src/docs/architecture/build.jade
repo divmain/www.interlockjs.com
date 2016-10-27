@@ -5,9 +5,293 @@ block content
   section.glass.heading
     h1 Build Architecture
 
-  section
+  section#compilation-flow
     .content
+      :markdown-it
+        ## Compilation Flow
+
+        Most bundlers and compilers are similar in how they approach compiling an application.  At a
+        high level, it looks something like this:
+
+      pre.diagram.
+                    ┌────────┐                                
+                    ▼        │                                
+                ╔═══════════════╗    ╔═══════════════╗        
+                ║ │1│ Discover  ║───▶║ │2│ Transform ║──┐     
+                ╚═══════════════╝    ╚═══════════════╝  │     
+        ┌───────────────────────────────────────────────┘     
+        │  ╔═══════════════════════════╗   ╔═════════════════╗
+        └─▶║ │3│ Combine and Construct ║──▶║ │4│ Emit Output ║
+           ╚═══════════════════════════╝   ╚═════════════════╝
+
+      :markdown-it
+
+        1. Having been provided an entry point, the dependency graph is traversed.  Discovery is a
+           recursive process, continuing until all dependencies and sub-dependencies are discovered
+           and parsed.  We'll call each node in the dependency graph a "module".
+
+        2. Input modules are (optionally) transformed in some way.
+
+        3. Input modules are combined in some way.  We'll call each combination a "bundle".
+
+        4. The bundles are emitted.  As part of this process, another transformation may occur from
+           an intermediate format to the destination format (i.e. byte-code to assembly code).
+
+        Roughly, the compiler finds some things, transforms them, combines them, and emits the combinations.
+
+        ### Interlock's Compilation
+
+        Interlock's compilation process follows the above pattern, with one caveat: module
+        transformation and the recursive discovery process are intertwined.  This allows for
+        module-specific transformation to effect the dependencies that are discovered.
+
+        And so, a truer visualization of Interlock's compilation process might look like this:
+
+      pre.diagram.
+                         ┌────────────────────┐               
+                         ▼                    │               
+                ╔═══════════════╗    ╔═══════════════╗        
+                ║ │1│ Discover  ║───▶║ │2│ Transform ║──┐     
+                ╚═══════════════╝    ╚═══════════════╝  │     
+        ┌───────────────────────────────────────────────┘     
+        │  ╔═══════════════════════════╗   ╔═════════════════╗
+        └─▶║ │3│ Combine and Construct ║──▶║ │4│ Emit Output ║
+           ╚═══════════════════════════╝   ╚═════════════════╝
 
 
-//- Depending on your desired outcome, simple plugins can be constructed to create custom bundling behaviors
-//- Talk about the steps of compilation that relate to module id's, hashes, and bundle sorting
+  section#compilation-primitives
+    .content
+      :markdown-it
+        ## Compilation Primitives
+
+        We've covered the basic steps of compilation, but we haven't mentioned the data
+        that flows between these steps.  Let's look at that next.
+
+
+        ### Foundational data-structures
+
+        Really, there are only two foundational data-structures that flow through the
+        Interlock compilation process: `modules` and `bundles`.  Below, we'll enumerate
+        the properties of these data structures at various stages.
+
+
+        #### Module seeds
+
+        A module seed is the earliest version of a module, containing the minimum information
+        necessary for the module to be read from disk and to proceed through compilation.  It
+        has the following properties:
+
+        - `path`: The absolute path of the input module.
+        - `ns`: The module's namespace.  For modules loaded from a `node_modules` directory, this
+          value will be taken from the `name` value of `node_modules/PACKAGE/package.json`.  For
+          modules from your own source directory, it will be taken from your own `package.json` or
+          from the explicit `namespace` property of your compilation options.
+        - `nsRoot`: The absolute path of the namespace's root.  For your own files, this will be
+          the input module's path relative to the `srcRoot` provided in the compilation options.
+          For `node_modules`, it is the absolute path of the subdirectory in `node_modules` that
+          contains the package's code.
+        - `nsPath`: The module's namespace-path.  This path is relative to the root of the `nsRoot`.
+        - `uri`: This is a simple combination of namespace and namespace-path, following the pattern
+          `${ns}:${nsPath}`.
+
+
+        #### Compiled modules
+
+        A module goes through several steps, each one adding one or more properties to the module
+        object as it proceeds.  A module will never be considered compiled until all of its
+        dependencies are compiled.  A compiled module will have the following properties (in
+        order of completion):
+
+        - `rawSource`: The raw string source of the module.
+        - `type`: The module type.  By default, this will be `"javascript"`.
+        - `sourcePath`: The joining of namespace and namespace-path (e.g. `lodash/lodash.min.js`).
+          This property is attached to the parsed AST (for source-map purposes), and may be used
+          elsewhere.
+        - `ast`: Intermediate representation of JavaScript code, in Babel AST.  This property
+          may be transformed or replaced as compilation progresses.
+        - `synchronousRequires`: An array of strings taken from require statements (e.g. 
+          `./sibling-module.js`).  These values will be used to discover the module's dependencies.
+        - `dependencies`: An array of `module` objects, corresponding with the module's direct
+          dependencies.
+        - `deepDependencies`: An array of `module` objects, corresponding with the module's
+          direct dependencies, their dependencies, and so on.
+        - `dependenciesByInternalRef`: A mapping of require-string to module object.  The keys
+          will be taken from the `synchronousRequires` array, and the values taken from the
+          `dependencies` array.
+        - `hash`: A hash representing the module's unique behavior.  For more information, see the
+          [module system](./module-system) documentation.
+        - `id`: The unique value by which this module will be referred to by other modules and
+          by the Interlock run-time.  By default, this is equal to the module `hash`.
+
+
+        #### Bundle seeds
+
+        Bundle seeds are the earliest version of a bundle, containing the minimum information
+        necessary to begin the bundle compilation process.  A bundle seed has the following
+        properties:
+
+        - `dest`: The path (relative to the output dir) of the file to emit.  This may be
+          a literal path, or it may be a string that is interpolated later in the compilation
+          process.
+        - `module`: The root of this bundle's section of the dependency graph.  Typically,
+          this is the module that corresponds with the entry and split points defined in the
+          compilation options.
+        - `moduleHashes`: At this point, an empty array.  Will be populated with strings later
+          in the compilation process.
+        - `modules`: At this point, an empty array.  Will be populated with strings later in
+          the compilation process.
+        - `isEntryPt`: A boolean, indicating whether this bundle's entry module should be
+          executed when the bundle is loaded in the run-time environment.
+        - `type`: A string indicating what type of bundle this is.  By default, this will
+          always be set to `"javascript"`.  However, plugins may define and operate on other
+          bundle types.
+        - `excludeRuntime`: A boolean, indicating whether the bundle should include the
+          Interlock runtime code.  By default, this directly corresponds to the source of the
+          bundle's `module`.  If the module was specified as an entry point, this value will
+          be `true`.  If the module was specified as a split point, this value will be `false`.
+
+
+        #### Bundles
+
+        Bundles are a combination of one or more modules, and all meta-data needed to
+        generate source.  In addition to the bundle-seed properties defined above,
+        bundles have the following properties:
+
+        - `dest`: The path (relative to the output dir) of the file to emit.  Once bundles
+          are fully processed, these values must be literal, relative paths.
+        - `moduleHashes`: An array of module IDs corresponding to the modules that should be
+          included in this bundle.
+        - `modules`: An array of `module` objects that should be included in this bundle.
+
+
+        #### Raw bundles
+
+        Raw bundles can be thought of as the "files" that are emitted.  In addition to the
+        `bundle` properties defined above, raw bundles have the following property:
+
+        - `raw`: A string containing the raw bytes to write to disk.
+        - `dest`: The path (relative to the output dir) of the file to emit.
+
+        In fact, only `raw` and `dest` are required to write bundles to disk, so you may see
+        plugins generate a simple object of shape `{ raw, dest }` late in the compilation
+        process so that they're written to disk.
+
+
+        ### Variations
+
+        It should be noted that the above descriptions of the `bundle` and `module` objects
+        disregards the changes that a plugin might introduce.  There are no constraints on
+        what can be attached to these objects as they flow through compliation, and some plugin
+        authors may find it useful to attach metadata to the module for use in later steps.
+
+
+        ### Flow of Data
+
+        The following is a conceptual visualization of how these data-structures relate to
+        each other and to the compilation flow:
+
+      pre.diagram.
+                    │                     
+                    │ │1│ Entry modules   
+                    ▼                     
+              ╔══════════╗                
+           ┌─▶║ Discover ║                
+           │  ╚══════════╝                
+           │        │                     
+           │        │ │2│ Module seeds    
+           │        ▼                     
+           │  ╔═══════════╗               
+           └──║ Transform ║               
+              ╚═══════════╝               
+                    │                     
+                    │ │3│ Compiled modules
+                    ▼                     
+        ╔═══════════════════════╗         
+        ║ Combine and Construct ║         
+        ╚═══════════════════════╝         
+                    │                     
+                    │ │4│ Bundles         
+                    ▼                     
+             ╔═════════════╗              
+             ║ Emit Output ║              
+             ╚═════════════╝              
+                    │                     
+                    │ │5│ Raw bundles     
+                    ▼                     
+
+      :markdown-it
+        1. Entry modules are defined by the user in their compilation options.  Before entering
+           the `Discover` stage, they are transformed into entry module seeds.
+
+        2. Module seeds contain the minimum information necessary for the source file to be loaded
+           from disk, parsed, and transformed.
+
+        3. During transformation, module seeds are incrementally fleshed-out until all module
+           properties are populated.  We'll call these "compiled modules".
+
+        4. Compiled modules are then combined into one or more bundles.  These bundles will correlate
+           directly with the files that are emitted at the end of the compilation process.
+
+        5. Bundles undergo a final, two-step transformation.  Given the AST of the modules in each
+           bundle, a Bundle AST is derived.  From that, a bundle's code (and optionally a source-map)
+           is generated.
+
+        Raw bundles can then be handed off to a function that writes them to disk, or to an HTTP server
+        to server to clients, to anything else.
+
+
+  section#pluggable-functions
+    .content
+      :markdown-it
+        ## Pluggable Functions
+
+        So far, we've looked at compilation in the abstract.  Fortunately, this abstract process corresponds
+        pretty closely with the implementation.
+
+        Each of these abstract steps is comprised of one or more pieces of compilation: pluggable functions.
+
+        Pluggable functions are like pure functions, taking inputs, delegating certain computations to other functions (often pluggables), and returning an output.  However, there are a few fundamental differences.
+
+        - Each function is wrapped in a `pluggable` call at its point of definition, and its dependencies are explicitly defined.
+        - Pluggable functions expect a special `this` context when invoked.  This context is constructed for and passed into the top-level pluggable function (normally the `compile` pluggable).  The context is then made available to the top-level pluggable's dependencies, their dependencies, and so on.
+        - Interlock allows you to override or transform the behavior and output of any of the pluggables that are defined.
+        - Pluggable functions are asynchronous by nature.  They all resolve to a promise under the hood.  This applies both to the default functionality, as well as any functionality that a plugin might define.
+
+        In essence, compilation is comprised of a hierarchy of function calls.  These function calls behave as extension points, where their output and behavior can be overridden or transformed, either synchronously or asynchronously.
+
+        Additionally, each pluggable function (and plugin points that override or transform these pluggable
+        functions) has a speciate execution context (`this`) that provides access to the compilation options
+        (`this.opts`).
+
+        To dig deeper:
+
+        - Read through the Pluggable [README](https://github.com/interlockjs/pluggable#pluggable).
+        - [Browse through](/docs/extensibility#compilation-pluggables) the pluggable functions that Interlock provides.
+        - [Learn how](/docs/extensibility#writing-a-plugin) to override one of Interlock's pluggables.
+
+
+  section#intermediate-representation-of-code
+    .content
+      :markdown-it
+        ## Intermediate representation of code
+
+        During compilation, Interlock tries to pair a piece of code with its most useful abstract structure.
+
+        This eases the process of manipulating and pulling information of the code during the build process.  It also
+        provides (soft) guarantees that the code that's emitted relates to the input source in the way that's expected.
+
+        In the case of JavaScript, this means that Babel AST is used to represent code.  This is true from the point of
+        parsing until bundle code and sourcemaps are generated.  The CSS plugin treats CSS similarly, relying on PostCSS's
+        AST format.
+
+        In general, strings and string concatenation should be avoided for module/bundle properties in plugin authoring
+        and in Interlock itself.  That is, unless they are the obvious choice.  For example, a bundle's code must
+        ultimately be a string or a buffer in order to be written to a file.  Because Babel's generator outputs a string,
+        we transform a bundle's AST to string just before the end of compilation.
+
+
+        ### Babel
+
+        Interlock relies on Babel for code parsing, transformation, and generation.  That makes Babel the most significant dependency upon which Interlock relies.
+
+        Babel itself is split into several packages, which are mostly maintained [here](https://github.com/babel/babel/tree/master/packages).  Each Babel package has its own README and test suite.  If you need to understand more about how Interlock consumes Babel packages, the READMEs and tests are a good place to start.  There are also several active channels in [Babel's Slack community](https://slack.babeljs.io/);

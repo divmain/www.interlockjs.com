@@ -5,70 +5,6 @@ block content
   section.glass.heading
     h1 Extensibility
 
-  section
-    .content
-      :markdown-it
-        - [Internal Architecture](#internal-architecture)
-          - [Pluggable Functions](#pluggable-functions)
-          - [Intermediate Data-structures](#intermediate-data-structures)
-          - [Babel](#babel)
-          - [Immutability](#immutability)
-        - [Definition of Terms](#definition-of-terms)
-        - [Writing a Plugin](#writing-a-plugin)
-        - [Compilation Pluggables](#compilation-pluggables)
-        - [Plugin Context](#plugin-context)
-        - [Changing Run-time Behavior](#changing-runtime-behavior)
-        - [Data Structures](#data-structures)
-        - [Learn More](#learn-more)
-
-  section.glass
-
-  section#internal-architecture
-    .content
-      h2 Internal Architecture
-      :markdown-it
-        ### Pluggable Functions
-
-         Interlock's compilation is built on pluggable functions.
-
-        Pluggable functions are like pure functions, taking inputs, delegating certain computations to other functions (often pluggables), and returning an output.  However, there are a few fundamental differences.
-
-        - Each function is wrapped in a `pluggable` call at its point of definition, and its dependencies are explicitly defined.
-        - Pluggable functions expect a special `this` context when invoked.  This context is constructed for and passed into the top-level pluggable function (normally the `compile` pluggable).  The context is then made available to the top-level pluggable's dependencies, their dependencies, and so on.
-        - Interlock allows you to override or transform the behavior and output of any of the pluggables that are defined.
-        - Pluggable functions are asynchronous by nature.  They all resolve to a promise under the hood.  This applies both to the default functionality, as well as any functionality that a plugin might define.
-
-        In essence, compilation is comprised of a hierarchy of function calls.  These function calls behave as extension points, where their output and behavior can be overridden or transformed, either synchronously or asynchronously.
-
-        To dig deeper:
-
-        - Read through the Pluggable [README](https://github.com/interlockjs/pluggable#pluggable).
-        - [Browse through](#compilation-pluggables) the pluggable functions that Interlock provides.
-        - [Learn how](#writing-a-plugin) to override one of Interlock's pluggables.
-
-        ### Intermediate Data-structures
-
-        Interlock tries to pair a piece of data with its ideal structure.
-
-        In the case of JavaScript, this means that AST is used to represent code.  This is true from the point of parsing until bundle-code and sourcemaps are generated.  The CSS plugin treats CSS similarly, using PostCSS's AST format.
-
-        In general, strings should be avoided unless they are the obvious choice.  For example, a bundle's code must ultimately be a string or a buffer in order to be written to a file.  Because Babel's generator outputs a string, we will transform a bundle's AST to string just before the end of compilation.
-
-
-        ### Babel
-
-        Interlock relies on Babel for code parsing, transformation, and generation.  That makes Babel the most significant dependency upon which Interlock relies.
-
-        Babel itself is split into several packages, which are mostly maintained [here](https://github.com/babel/babel/tree/master/packages).  Each Babel package has its own README and test suite.  If you need to understand more about how Interlock consumes Babel packages, the READMEs and tests are a good place to start.  There are also several active channels in [Babel's Slack community](https://slack.babeljs.io/);
-
-
-        ### Immutability
-
-        Although it is not enforced, it is recommended to treat all input/output data-structures as immutable.  For example, a method that returns a module with a new prop will usually be written as `assign({}, module, { newProp })`.
-
-
-  section.glass
-
   section#definition-of-terms
     .content
       h2 Definition of Terms
@@ -217,13 +153,14 @@ block content
         TODO
 
 
-  section.glass#data-structures
+  section.glass
+
+  section#best-practices
     .content
-      h2 Data Structures
       :markdown-it
-        TODO
-        - modules
-        - bundles
+        ## Best practices
+
+        Although it is not enforced, it is recommended to treat all input/output data-structures as immutable.  For example, a method that returns a module with a new prop will usually be written as `assign({}, module, { newProp })`.
 
 
   section.glass
@@ -231,16 +168,13 @@ block content
 
   section#learn-more
     .content
-      h2 Learn More
       :markdown-it
+        ## Learn More
+
+        To better understand the pieces of data that are flowing through compilation, read up
+        on Interlock's [build architecture](/docs/architecture/build).
+
         TODO
         - reach out in Gitter channel
         - look over the cookbook examples
         - read through the offical plugins
-
-//- Writing a plugin
-//- Show all the compilation steps that can be overridden or transformed. 
-//- Show example plugin
-//- Talk about pluggables in general 
-//- Link to pluggable documentation
-//- Everything is async, so you can do interesting things (show example of a ridiculous but interesting plugin that wouldn't work if everything were synchronous)
